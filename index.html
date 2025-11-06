@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparador Presidencial Chile 2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: linear-gradient(135deg, #1e3a8a 0%, #312e81 100%); min-height: 100vh; }
+        .hidden { display: none !important; }
+        
+        /* Animaciones */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.6s ease-out; }
+        
+        /* Cards */
+        .card { transition: all 0.3s ease; cursor: pointer; }
+        .card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+        .card img { transition: filter 0.3s; filter: grayscale(100%); }
+        .card:hover img { filter: grayscale(0%); }
+        
+        /* Botones candidatos */
+        .btn-cand { transition: all 0.2s; cursor: pointer; padding: 12px 16px; border-radius: 8px; }
+        .btn-cand:hover { background: #f1f5f9; transform: translateX(4px); }
+        .btn-cand.active { background: linear-gradient(90deg, #eef2ff, #e0e7ff); border-left: 4px solid #4f46e5; font-weight: 700; color: #4f46e5; }
+        
+        /* Tabs */
+        .tab { transition: all 0.2s; cursor: pointer; padding: 12px 8px; position: relative; }
+        .tab:after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 3px; background: #4f46e5; transition: width 0.3s; }
+        .tab.active { color: #4f46e5; font-weight: 700; }
+        .tab.active:after { width: 100%; }
+        
+        /* Propuestas */
+        .prop { transition: all 0.2s; cursor: pointer; border-left: 3px solid transparent; }
+        .prop:hover { background: #f8fafc; border-left-color: #4f46e5; transform: translateX(6px); }
+        
+        /* Barra tendencia */
+        .trend-bar { height: 12px; background: linear-gradient(90deg, #ef4444 0%, #f59e0b 25%, #eab308 50%, #84cc16 75%, #22c55e 100%); border-radius: 999px; position: relative; }
+        .trend-dot { position: absolute; top: -6px; width: 24px; height: 24px; background: white; border: 3px solid #4f46e5; border-radius: 50%; transform: translateX(-50%); box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+        
+        /* Modal */
+        .modal-bg { backdrop-filter: blur(8px); background: rgba(0,0,0,0.75); transition: opacity 0.3s; }
+        .modal-box { transition: all 0.3s; }
+        .hidden .modal-box { transform: scale(0.95); opacity: 0; }
+        
+        /* Badge */
+        .badge { display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 11px; font-weight: 600; text-transform: uppercase; }
+        .badge-green { background: #dcfce7; color: #166534; }
+        .badge-red { background: #fee2e2; color: #991b1b; }
+        .badge-blue { background: #dbeafe; color: #1e40af; }
+    </style>
+</head>
+<body>
+
+<!-- VISTA 1: OVERVIEW -->
+<div id="view-overview" class="min-h-screen py-12 px-4">
+    <div class="max-w-7xl mx-auto">
+        <header class="text-center mb-16 fade-in">
+            <div class="inline-block bg-white/10 backdrop-blur-xl rounded-3xl p-10 shadow-2xl">
+                <h1 class="text-5xl md:text-7xl font-black text-white mb-4">Elecciones Chile 2025</h1>
+                <p class="text-2xl text-gray-200 font-medium">Comparador Interactivo de Propuestas Presidenciales</p>
+                <div class="mt-6 flex justify-center gap-6 text-gray-300 text-sm">
+                    <span>✓ 8 Candidatos</span>
+                    <span>✓ 6 Categorías</span>
+                    <span>✓ Análisis Profundo</span>
+                </div>
+            </div>
+        </header>
+        <div id="grid-candidatos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
+    </div>
+</div>
+
+<!-- VISTA 2: DASHBOARD -->
+<div id="view-dashboard" class="hidden min-h-screen py-8 px-4">
+    <div class="max-w-7xl mx-auto">
+        <button id="btn-volver" class="mb-6 px-6 py-3 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all font-semibold text-gray-700 hover:text-indigo-600">
+            ← Volver al Resumen
+        </button>
+
+        <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
+            <div class="flex flex-col lg:flex-row">
+                
+                <!-- Sidebar -->
+                <aside class="lg:w-72 bg-gray-50 border-r">
+                    <div class="hidden lg:block p-6">
+                        <h2 class="text-lg font-bold text-gray-800 mb-4">Candidatos</h2>
+                        <div id="selector-desktop" class="space-y-2"></div>
+                    </div>
+                    <div class="lg:hidden p-4 overflow-x-auto">
+                        <div id="selector-mobile" class="flex gap-3 pb-2"></div>
+                    </div>
+                </aside>
+
+                <!-- Main -->
+                <main class="flex-1 p-6 lg:p-10">
+                    
+                    <!-- Header candidato -->
+                    <div class="flex items-center gap-6 mb-8 p-6 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl">
+                        <img id="cand-img" src="" alt="" class="w-24 h-24 lg:w-32 lg:h-32 rounded-full border-4 border-white shadow-xl object-cover">
+                        <div class="flex-1">
+                            <h2 id="cand-name" class="text-3xl lg:text-4xl font-black text-gray-900 mb-2"></h2>
+                            <p id="cand-party" class="text-lg text-gray-600 font-medium mb-3"></p>
+                            <div id="cand-tags" class="flex flex-wrap gap-2"></div>
+                        </div>
+                    </div>
+
+                    <!-- Tabs -->
+                    <nav class="border-b border-gray-200 mb-8">
+                        <ul id="tabs-categorias" class="flex flex-wrap gap-6"></ul>
+                    </nav>
+
+                    <!-- Tendencia -->
+                    <div class="mb-8 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl border border-blue-100">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                            <span class="text-2xl">📊</span> Análisis de Tendencia
+                        </h3>
+                        <div id="contenido-tendencia"></div>
+                    </div>
+
+                    <!-- Propuestas -->
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-6">
+                            Propuestas Clave <span id="num-propuestas" class="text-sm font-normal text-gray-500"></span>
+                        </h3>
+                        <ul id="lista-propuestas" class="space-y-3"></ul>
+                    </div>
+
+                </main>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-bg">
+    <div class="modal-box bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col">
+        
+        <div class="flex items-center justify-between p-6 border-b bg-gradient-to-r from-indigo-50 to-purple-50">
+            <h3 class="text-2xl font-bold text-gray-900">📋 Análisis de Propuesta</h3>
+            <button id="modal-cerrar" class="text-4xl font-bold text-gray-600 hover:text-gray-900 w-10 h-10 flex items-center justify-center">&times;</button>
+        </div>
+
+        <div class="flex-1 overflow-y-auto p-6 lg:p-8 space-y-6">
+            
+            <div class="bg-indigo-50 border-l-4 border-indigo-600 p-6 rounded-r-xl">
+                <h4 class="text-lg font-bold text-indigo-900 mb-3">1️⃣ La Propuesta</h4>
+                <p id="modal-propuesta" class="text-gray-800 text-lg font-medium leading-relaxed"></p>
+            </div>
+
+            <div class="bg-blue-50 border-l-4 border-blue-600 p-6 rounded-r-xl">
+                <h4 class="text-lg font-bold text-blue-900 mb-3">2️⃣ Detalle del Programa</h4>
+                <p id="modal-detalle" class="text-gray-700 leading-relaxed"></p>
+            </div>
+
+            <div class="bg-amber-50 border-l-4 border-amber-600 p-6 rounded-r-xl">
+                <h4 class="text-lg font-bold text-amber-900 mb-3">3️⃣ Puntos Clave a Verificar (Fact-Checking)</h4>
+                <p class="text-sm text-amber-800 mb-3 italic">Aspectos que el ciudadano debe verificar:</p>
+                <ul id="modal-verificar" class="space-y-2 text-sm text-gray-700"></ul>
+            </div>
+
+            <div class="bg-purple-50 border-l-4 border-purple-600 p-6 rounded-r-xl">
+                <h4 class="text-lg font-bold text-purple-900 mb-4">4️⃣ Análisis de Aplicabilidad</h4>
+                
+                <div class="mb-4">
+                    <h5 class="font-semibold text-green-800 mb-2">
+                        <span class="badge badge-green">✓ Problema a Resolver</span>
+                    </h5>
+                    <p id="modal-problema" class="text-gray-700 leading-relaxed"></p>
+                </div>
+
+                <div class="h-px bg-gray-300 my-4"></div>
+
+                <div>
+                    <h5 class="font-semibold text-red-800 mb-3">
+                        <span class="badge badge-red">⚠ Desafíos de Implementación</span>
+                    </h5>
+                    <ul id="modal-desafios" class="space-y-2 text-sm text-gray-700"></ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-6 border-t bg-gray-50 flex items-center justify-between flex-wrap gap-4">
+            <p class="text-sm text-gray-600"><strong>Nota:</strong> Este análisis es neutral e informativo, no constituye opinión política.</p>
+            <button id="modal-cerrar-2" class="px-6 py-2 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-all shadow-md">
+                Cerrar
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ========================================
+// BASE DE DATOS - 8 CANDIDATOS COMPLETOS
+// ========================================
+
+const CANDIDATOS = {
+  jara: {
+    nombre: 'Jeannette Jara',
+    partido: 'Unidad por Chile (PCCh)',
+    imagen: 'https://placehold.co/400x400/4F46E5/FFFFFF?text=JJ',
+    tags: ['Redistribución', 'Estado', 'Derechos'],
+    categorias: {
+      economia: {
+        tendencia: { etiqueta: 'Enfoque Económico', izq: 'Rol del Estado', der: 'Libre Mercado', valor: 15 },
+        propuestas: [{
+          titulo: 'Reforma tributaria progresiva con impuesto a grandes fortunas',
+          detalle: 'Propone un nuevo tramo de impuesto para patrimonios sobre $5.000 millones, aumentar el impuesto a la renta corporativa al 30%, y crear un impuesto a las herencias sobre cierto umbral. Los recursos irían a financiar educación, salud y pensiones.',
+          verificar: ['Monto específico de recaudación fiscal esperada', 'Umbral exacto de patrimonio gravado', 'Tasas impositivas propuestas por tramo', 'Comparación con tasas actuales de países OCDE', 'Impacto estimado en inversión extranjera'],
+          problema: 'Chile tiene una alta concentración de riqueza y desigualdad (Gini 0.45). El 1% más rico concentra el 26% de los ingresos nacionales. Los actuales impuestos progresivos son insuficientes para financiar el Estado de Bienestar que demanda la ciudadanía post-estallido social.',
+          desafios: ['Alto costo político: requiere 4/7 del Congreso para reformas tributarias estructurales', 'Riesgo de fuga de capitales hacia paraísos fiscales si no hay coordinación internacional', 'Experiencias mixtas en región: Ecuador (2010) recaudó menos de lo esperado', 'Complejidad administrativa para fiscalizar patrimonios no declarados', 'Posible impacto negativo en clima de inversión según rankings internacionales']
+        }, {
+          titulo: 'Crear empresa estatal de medicamentos genéricos',
+          detalle: 'Establecer una farmacéutica estatal que produzca medicamentos de alto costo y uso masivo (insulina, anticonceptivos, tratamientos oncológicos) para reducir precios en 40-60%. Se inspira en el modelo de Farmanguinhos en Brasil.',
+          verificar: ['Inversión inicial requerida para la planta', 'Lista específica de medicamentos a producir', 'Capacidad de producción anual proyectada', 'Tiempo estimado hasta operación plena', 'Análisis de rentabilidad o subsidio permanente'],
+          problema: 'Chile tiene los medicamentos más caros de la región (200-300% sobre precio internacional). Tres cadenas de farmacias coludidas controlan el 90% del mercado. Enfermedades crónicas (diabetes, hipertensión) afectan a 6 millones de personas con altos gastos de bolsillo.',
+          desafios: ['Inversión inicial: USD 200-400 millones según experiencia brasileña', 'Resistencia de industria farmacéutica: posibles litigios por patentes', 'Requiere personal altamente calificado: bioquímicos, ingenieros', 'Riesgo de ineficiencia estatal: FAMAE y ENAER tienen historial mixto', 'Tiempo de maduración: 4-7 años hasta producción a escala según OMS']
+        }]
+      },
+      seguridad: {
+        tendencia: { etiqueta: 'Enfoque en Seguridad', izq: 'Prevención Social', der: 'Mano Dura', valor: 25 },
+        propuestas: [{
+          titulo: 'Programa masivo de empleos juveniles para prevenir delincuencia',
+          detalle: 'Ofrecer 100.000 puestos de trabajo con capacitación para jóvenes de 18-29 años en comunas vulnerables. Incluye pasantías remuneradas en empresas públicas y subsidio salarial para contratación privada.',
+          verificar: ['Presupuesto total del programa', 'Definición de "comunas vulnerables"', 'Mecanismos de focalización', 'Duración de subsidios', 'Evaluaciones de impacto en reducción delictual'],
+          problema: 'Chile tiene 250.000 jóvenes "ninis" (ni estudian ni trabajan), con alta concentración en comunas de La Pintana, Puente Alto, y Cerro Navia. 60% de los delitos son cometidos por personas menores de 30 años.',
+          desafios: ['Costo fiscal: USD 500-700 millones anuales según experiencia colombiana', 'Riesgo de subsidio de empleo sin calidad: "puerta giratoria" de contratos', 'Requiere articulación público-privada: historial débil en Chile', 'Estigmatización: empresas reacias a contratar jóvenes con antecedentes', 'Efectos de corto plazo: reducción delictual es gradual (3-5 años)']
+        }]
+      },
+      migracion: {
+        tendencia: { etiqueta: 'Política Migratoria', izq: 'Regularización', der: 'Control/Expulsión', valor: 30 },
+        propuestas: [{
+          titulo: 'Proceso extraordinario de regularización migratoria masiva',
+          detalle: 'Legalizar situación de 300.000 migrantes irregulares con más de 2 años en Chile. Requisitos: antecedentes limpios, contrato de trabajo o emprendimiento, y arraigo familiar.',
+          verificar: ['Estimación exacta de migrantes irregulares', 'Criterios de elegibilidad', 'Capacidad administrativa para procesar solicitudes', 'Tiempo de tramitación', 'Impacto fiscal en servicios públicos'],
+          problema: 'Chile tiene 1.6 millones de migrantes (8% de población). 300.000 están en situación irregular, sin acceso a derechos laborales ni salud. Esto alimenta economía informal, explotación laboral, y hacinamiento.',
+          desafios: ['Costo administrativo: 50.000 funcionarios-hora según experiencia española', 'Efecto llamada: podría incentivar nueva migración irregular', 'Xenofobia: 55% de chilenos rechaza más migración (CEP 2024)', 'Saturación de servicios: hospitales y escuelas en comunas migrantes al límite', 'Resistencia de sectores de derecha: acusan de "amnistía criminal"']
+        }]
+      },
+      salud: {
+        tendencia: { etiqueta: 'Sistema de Salud', izq: 'Sistema Único Público', der: 'Sistema Mixto', valor: 10 },
+        propuestas: [{
+          titulo: 'Eliminar las Isapres y crear un Sistema Único de Salud Universal',
+          detalle: 'Terminar sistema dual de salud. Integrar cotizaciones de Isapres (7%) y Fonasa en un Fondo Único de Salud. Garantizar cobertura universal sin copagos. Transición gradual en 4 años.',
+          verificar: ['Plazos de transición', 'Tratamiento de contratos vigentes', 'Compensación a Isapres', 'Mecanismos para absorber 3 millones de afiliados', 'Proyección de gasto fiscal adicional'],
+          problema: 'Sistema de Isapres discrimina por edad, sexo y preexistencias. 3 millones de personas en Isapres pagan plan promedio $150.000/mes con altos copagos. FONASA atiende 15 millones con menos recursos.',
+          desafios: ['Costo fiscal: USD 8.000-12.000 millones según Comisión Experta Salud', 'Judicialización: Isapres reclamarían indemnizaciones billonarias', 'Capacidad hospitalaria: sistema público colapsaría sin inversión masiva', 'Fuga de médicos: especialistas migrarían a sector privado o extranjero', 'Experiencia regional: sistema único de Venezuela colapsó por falta de financiamiento']
+        }]
+      },
+      social: {
+        tendencia: { etiqueta: 'Política Social', izq: 'Universalismo', der: 'Focalización', valor: 15 },
+        propuestas: [{
+          titulo: 'Ingreso Básico Universal de $200.000 mensuales',
+          detalle: 'Transferencia incondicional a todos los ciudadanos mayores de 18 años, sin requisitos. Reemplaza subsidios focalizados (SUF, asignación familiar). Reduce burocracia y elimina trampas de pobreza.',
+          verificar: ['Monto exacto por persona', 'Universo de beneficiarios', 'Costo fiscal total anual', 'Subsidios que se eliminan', 'Fuentes de financiamiento'],
+          problema: 'Chile tiene 10,8% de pobreza (1,9 millones de personas). Subsidios focalizados son insuficientes, estigmatizantes y crean trampas de pobreza (perder beneficio al conseguir trabajo formal).',
+          desafios: ['Costo fiscal: USD 30.000 millones anuales (17% del PIB)', 'Financiamiento: requiere reforma tributaria del 50% adicional', 'Inflación: inyección masiva de dinero podría subir precios 3-5%', 'Desincentivo laboral: estudios mixtos, Finlandia redujo empleo 2%', 'Experiencia limitada: ningún país de ingreso medio lo ha implementado a escala']
+        }]
+      },
+      tecnologia: {
+        tendencia: { etiqueta: 'Política Digital', izq: 'Acceso Público', der: 'Incentivo Privado', valor: 20 },
+        propuestas: [{
+          titulo: 'Internet gratuito universal como derecho fundamental',
+          detalle: 'Declarar internet como servicio público esencial. Estado proveerá conexión básica gratuita (10 Mbps) a todos los hogares. Inversión en fibra óptica rural.',
+          verificar: ['Velocidad de conexión garantizada', 'Cobertura geográfica comprometida', 'Inversión en infraestructura', 'Plazos de implementación', 'Mecanismo de operación (empresa estatal o subsidio)'],
+          problema: 'Chile tiene brecha digital: 87% de hogares urbanos con internet vs 48% rural. Educación online pandemia evidenció que 1,2 millones de estudiantes no tenían conectividad.',
+          desafios: ['Inversión inicial: USD 3.000-5.000 millones en infraestructura', 'Costo operativo: USD 500-800 millones anuales', 'Monopolios: empresas actuales resistirán competencia estatal', 'Zonas extremas: costo por conexión en Aysén/Magallanes es 10x Santiago', 'Mantenimiento: red estatal podría tener problemas de calidad de servicio']
+        }]
+      }
+    }
+  },
+  matthei: {
+    nombre: 'Evelyn Matthei',
+    partido: 'Chile Vamos (UDI)',
+    imagen: 'https://placehold.co/400x400/0EA5E9/FFFFFF?text=EM',
+    tags: ['Libre Mercado', 'Orden Público', 'Gestión'],
+    categorias: {
+      economia: {
+        tendencia: { etiqueta: 'Enfoque Económico', izq: 'Rol del Estado', der: 'Libre Mercado', valor: 75 },
+        propuestas: [{
+          titulo: 'Reducir impuestos a empresas del 27% al 20%',
+          detalle: 'Bajar tasa de impuesto corporativo gradualmente en 4 años. Estimularía inversión extranjera (IED) y crearía 200.000 empleos según modelo econométrico.',
+          verificar: ['Reducción fiscal proyectada', 'Cálculo de empleos generados', 'Fuentes de compensación presupuestaria', 'Comparación con tasas OCDE', 'Evidencia empírica de efectos similares'],
+          problema: 'Chile cayó del puesto 21 al 33 en ranking de competitividad (IMD). Inversión extranjera bajó 40% entre 2018-2023. Incertidumbre política y regulaciones desincentivan IED.',
+          desafios: ['Costo fiscal: USD 4.000-5.000 millones anuales menos en recaudación', 'Efecto Laffer incierto: evidencia mixta si baja de impuestos se autofinancia', 'Desigualdad: beneficia principalmente a grandes empresas, no PyMEs', 'Experiencia de Kansas: recorte tributario 2012 quebró Estado sin generar crecimiento', 'OCDE podría sancionar: hay acuerdo global de tasa mínima 15% que Chile firmó']
+        }]
+      },
+      seguridad: {
+        tendencia: { etiqueta: 'Enfoque en Seguridad', izq: 'Prevención Social', der: 'Mano Dura', valor: 80 },
+        propuestas: [{
+          titulo: 'Duplicar dotación de Carabineros y construir 15 nuevas cárceles',
+          detalle: 'Aumentar policías de 52.000 a 104.000 efectivos en 6 años. Construir 15 recintos penitenciarios (capacidad 1.500 c/u). Terminar con sobrepoblación carcelaria que está en 120%.',
+          verificar: ['Costo de construcción de cárceles', 'Presupuesto de contratación policial', 'Plazos de reclutamiento y entrenamiento', 'Tasas de reincidencia proyectadas', 'Evidencia de efectividad de más policías'],
+          problema: 'Chile tiene 52.000 carabineros para 20 millones de habitantes (260 por 100.000 hab). OCDE: 350 por 100.000. Cárceles con 47.000 presos en espacios para 39.000.',
+          desafios: ['Costo anual: USD 1.500-2.000 millones adicionales', 'Déficit de postulantes: crisis de vocación tras estallido social', 'Costo cárcel: USD 150 millones c/u, total USD 2.250 millones', 'Evidencia mixta: EE.UU. tiene 700 presos por 100.000 hab, no redujo crimen', 'Modelos punitivos han fracasado: El Salvador con "guerra al narco" violó DDHH']
+        }]
+      },
+      migracion: {
+        tendencia: { etiqueta: 'Política Migratoria', izq: 'Regularización', der: 'Control/Expulsión', valor: 85 },
+        propuestas: [{
+          titulo: 'Expulsar a todos los migrantes con antecedentes penales',
+          detalle: 'Deportación inmediata de extranjeros con condenas criminales, incluyendo delitos flagrantes. Prohibición de reingreso permanente.',
+          verificar: ['Número de migrantes con antecedentes', 'Definición de "antecedente penal"', 'Capacidad logística de deportación', 'Costo de operativos', 'Acuerdos de readmisión con países de origen'],
+          problema: '15% de migrantes (240.000) tiene antecedentes penales (desde hurtos hasta homicidios). Comunas como Quilicura, Estación Central ven incremento de delitos con participación extranjera.',
+          desafios: ['Tratados internacionales: Chile firmó Convención sobre Refugiados, limita expulsiones', 'Países de origen se niegan: Venezuela no acepta deportados, casos quedan en limbo', 'Costo: USD 10.000 por deportación en vuelo chárter, total USD 2.400 millones', 'Recursos judiciales: migrantes apelan, proceso toma 2-4 años', 'Violaciones DDHH: separación familiar, niños chilenos quedan sin padres']
+        }]
+      },
+      salud: {
+        tendencia: { etiqueta: 'Sistema de Salud', izq: 'Sistema Único Público', der: 'Sistema Mixto', valor: 90 },
+        propuestas: [{
+          titulo: 'Fortalecer Isapres con libre elección y competencia',
+          detalle: 'Permitir venta de planes de salud sin restricciones por edad/preexistencias, pero con primas actuarialmente justas. Crear fondo de compensación cruzada para enfermos crónicos.',
+          verificar: ['Regulación de primas propuestas', 'Monto del fondo de compensación', 'Requisitos para nuevas aseguradoras', 'Mecanismos anti-selección adversa', 'Experiencia comparable'],
+          problema: 'Sistema de Isapres está en crisis: Corte Suprema ordenó devolver USD 2.000 millones por alzas ilegales. Sin Isapres, 3 millones irían a FONASA, colapsándolo.',
+          desafios: ['Selección adversa: enfermos costosos migrarían a aseguradoras, quebrándolas', 'Primas estratosféricas: diabético pagaría USD 1.000/mes, inaccesible', 'Fondo de compensación: ¿quién aporta? USD 500-1.000 millones anuales necesarios', 'Nuevas aseguradoras: mercado chileno es pequeño, riesgo de oligopolio persiste', 'Suiza funciona: pero tiene PIB per cápita 3x Chile y fuerte regulación']
+        }]
+      },
+      social: {
+        tendencia: { etiqueta: 'Política Social', izq: 'Universalismo', der: 'Focalización', valor: 85 },
+        propuestas: [{
+          titulo: 'Mantener AFP con competencia real y mejores comisiones',
+          detalle: 'Eliminar comisiones en UF (reemplazar por % del saldo). Licitación de afiliados nuevos cada 2 años. Permitir retiros parciales a 55 años. Aumentar pensión básica universal a $250.000.',
+          verificar: ['Nueva estructura de comisiones', 'Mecanismo de licitación', 'Monto de pensión básica', 'Condiciones para retiros anticipados', 'Costo fiscal de aumento PGU'],
+          problema: 'Sistema de AFP tiene rechazo ciudadano (75% quiere cambio según CEP). Comisiones altas han erosionado 30% de ahorros en 40 años. Pensión promedio: $250.000, insuficiente.',
+          desafios: ['Rechazo ciudadano: 75% quiere sistema mixto o estatal, no AFP', 'Licitaciones pasadas: no redujeron comisiones significativamente', 'Rentabilidad incierta: fondos perdieron 5% en 2022, ahorrantes en riesgo', 'Aumento PGU cuesta: USD 2.000-3.000 millones anuales adicionales', 'Retiros anticipados: reducen pensión final en 40%, perpetúan pobreza']
+        }]
+      },
+      tecnologia: {
+        tendencia: { etiqueta: 'Política Digital', izq: 'Acceso Público', der: 'Incentivo Privado', valor: 85 },
+        propuestas: [{
+          titulo: 'Incentivos tributarios para empresas tech y startups',
+          detalle: 'Exención de impuesto corporativo por 5 años para startups tecnológicas. Crédito tributario del 50% en I+D. Visa tech para atraer talento extranjero.',
+          verificar: ['Definición de "startup tech"', 'Monto de exención tributaria', 'Costo fiscal del programa', 'Requisitos para visa tech', 'Meta de empresas y empleos creados'],
+          problema: 'Chile tiene solo 6 unicornios (NotCo, Cornershop). Israel con población similar tiene 100+. Falta incentivos: impuestos corporativos altos, burocracia, visa tech restrictiva.',
+          desafios: ['Costo fiscal: USD 300-500 millones anuales en exenciones', 'Definición ambigua: ¿Uber es tech o transporte? Abuso de beneficios', 'Efecto desplazamiento: empresas tradicionales se "reinventan" como tech', 'Resultados de largo plazo: Israel invirtió 50 años, no es replicable rápido', 'Fuga post-beneficio: startups se van tras exención de 5 años']
+        }]
+      }
+    }
+  },
+  kast: {
+    nombre: 'José Antonio Kast',
+    partido: 'Partido Republicano',
+    imagen: 'https://placehold.co/400x400/10B981/FFFFFF?text=JAK',
+    tags: ['Orden', 'Familia', 'Libertad Económica'],
+    categorias: {
+      economia: {
+        tendencia: { etiqueta: 'Enfoque Económico', izq: 'Rol del Estado', der: 'Libre Mercado', valor: 90 },
+        propuestas: [{
+          titulo: 'Estado subsidiario: privatizar todas las empresas públicas',
+          detalle: 'Privatizar Codelco, EFE, Metro, puertos estatales. Estado solo regulador, no operador. Ingresar USD 50.000 millones a fondo soberano.',
+          verificar: ['Empresas a privatizar', 'Valuación de cada empresa', 'Mecanismo de venta', 'Destino de recursos', 'Regulación post-privatización'],
+          problema: 'Empresas estatales tienen historial de ineficiencia: EFE pierde USD 100M anuales, requiere subsidios permanentes. Codelco tiene deuda USD 18.000M.',
+          desafios: ['Codelco es estratégico: 10% del PIB, impensable privatizar totalmente', 'Monopolios naturales: Metro, agua, puertos requieren regulación férrea', 'Experiencia negativa: privatización eléctrica (1980) generó oligopolio y alzas', 'Valuación difícil: EFE vale negativo (infraestructura obsoleta)', 'Rechazo ciudadano: 71% rechaza privatizar Codelco (Cadem 2023)']
+        }]
+      },
+      seguridad: {
+        tendencia: { etiqueta: 'Enfoque en Seguridad', izq: 'Prevención Social', der: 'Mano Dura', valor: 95 },
+        propuestas: [{
+          titulo: 'Zona militar en La Araucanía con toque de queda',
+          detalle: 'Declarar La Araucanía zona de emergencia permanente. Militares con potestades de detención. Toque de queda 21:00-06:00. Allanamientos sin orden judicial.',
+          verificar: ['Marco legal propuesto', 'Extensión geográfica', 'Duración de medidas', 'Potestades militares específicas', 'Garantías de DDHH'],
+          problema: 'Araucanía vive crisis de violencia: 200 atentados anuales, 4 muertos en 2024. Grupos radicales (CAM) usan explosivos, queman casas, amenazan agricultores.',
+          desafios: ['Violaciones DDHH: militares no están entrenados en control civil', 'Experiencia de Sri Lanka: 30 años de guerra, 100.000 muertos', 'Escalada: represión militar radicaliza movimiento independentista', 'Constitucionalidad: Estado de Excepción requiere aprobación Congreso cada 15 días', 'Tribunales internacionales: Chile podría ser sancionado por Corte Interamericana']
+        }]
+      },
+      migracion: {
+        tendencia: { etiqueta: 'Política Migratoria', izq: 'Regularización', der: 'Control/Expulsión', valor: 95 },
+        propuestas: [{
+          titulo: 'Cero migración irregular: deportación masiva y zanja en frontera',
+          detalle: 'Expulsar 300.000 migrantes irregulares en 2 años. Construir zanja de 4 metros en 400 km frontera norte. Detención obligatoria de ingresos clandestinos.',
+          verificar: ['Número a deportar', 'Costo de operaciones', 'Países de destino', 'Especificaciones de zanja', 'Acuerdos de readmisión'],
+          problema: 'Chile tiene 300.000 migrantes irregulares sin control estatal. Frontera norte es "puerta abierta". Traficantes operan impunes. Soberanía vulnerada.',
+          desafios: ['Costo: USD 5.000-8.000 millones (deportaciones + zanja)', 'Países no reciben: Venezuela, Haití rechazan deportados', 'Crisis humanitaria: separación familiar, violaciones DDHH', 'Zanjas ineficaces: pueden ser rellenadas, cruzadas con puentes', 'Economía: construcción, agricultura colapsarían sin mano de obra migrante']
+        }]
+      },
+      salud: {
+        tendencia: { etiqueta: 'Sistema de Salud', izq: 'Sistema Único Público', der: 'Sistema Mixto', valor: 95 },
+        propuestas: [{
+          titulo: 'Salud 100% privada con seguros individuales',
+          detalle: 'Eliminar FONASA. Todos compran seguro privado. Estado solo da subsidio para pobres que compren en mercado. Competencia plena, libertad de elección.',
+          verificar: ['Eliminación gradual de FONASA', 'Monto de subsidio para vulnerables', 'Regulación de aseguradoras', 'Transición de hospitales públicos', 'Cobertura de enfermos crónicos'],
+          problema: 'FONASA es ineficiente: listas de espera de años, infraestructura obsoleta, baja productividad. Modelo estatal fracasó. Privados tienen mejor tecnología, tiempos, resultados.',
+          desafios: ['EE.UU. es el más caro: USD 12.000 per cápita vs Chile USD 2.000', '45.000 estadounidenses mueren sin seguro médico (Harvard Study)', 'Enfermos crónicos: nadie los aseguraría, quedarían sin atención', 'Costo para clase media: familia pagaría USD 800-1.200/mes', 'Subsidios para pobres: USD 5.000-8.000 millones anuales']
+        }]
+      },
+      social: {
+        tendencia: { etiqueta: 'Política Social', izq: 'Universalismo', der: 'Focalización', valor: 90 },
+        propuestas: [{
+          titulo: 'Eliminar subsidios estatales: trabajo dignifica, no asistencialismo',
+          detalle: 'Terminar con SUF, asignación familiar, IFE. Solo mantener extrema vulnerabilidad (indigencia). Promover empleo privado, no dependencia estatal.',
+          verificar: ['Subsidios a eliminar', 'Ahorro fiscal', 'Definición de "extrema vulnerabilidad"', 'Programas alternativos', 'Impacto en pobreza'],
+          problema: 'Chile gasta 11% del PIB en subsidios sociales. Genera dependencia: familias prefieren subsidio que trabajo. Asistencialismo perpetúa pobreza, no la resuelve.',
+          desafios: ['Evidencia inversa: países con más gasto social tienen menos pobreza (nórdicos)', 'Pobreza subiría: 15-20% adicional según Banco Mundial', '1,5 millones de niños perderían SUF: afectaría nutrición, escolaridad', 'Trampa de pobreza es mito: 70% de beneficiarios trabajan (CEPAL)', 'Rechazo ciudadano: solo 12% apoya eliminar subsidios (CEP)']
+        }]
+      },
+      tecnologia: {
+        tendencia: { etiqueta: 'Política Digital', izq: 'Acceso Público', der: 'Incentivo Privado', valor: 90 },
+        propuestas: [{
+          titulo: 'Desregular totalmente las telecomunicaciones',
+          detalle: 'Eliminar Subsecretaría de Telecomunicaciones. Libre entrada y salida de operadores. Sin obligaciones de cobertura universal. Mercado decide precios.',
+          verificar: ['Regulaciones a eliminar', 'Tratamiento de zonas rurales', 'Mecanismos de competencia', 'Impacto en precios', 'Protección consumidores'],
+          problema: 'Subtel es burocrática: trámites de espectro toman años. Obligaciones de cobertura universal encarecen servicio. Regulación ahuyenta inversión.',
+          desafios: ['Zonas rurales sin servicio: operadores no invertirían sin obligación', 'Oligopolio de facto: Entel, Movistar, Claro controlan 95% del mercado', 'Nueva Zelanda tiene: 5M habitantes en área pequeña (Chile: 20M en 4.300km)', 'Protección al consumidor: sin Subtel, ¿quién fiscaliza abusos?', 'Espectro radioeléctrico: es bien público, requiere asignación regulada']
+        }]
+      }
+    }
+  },
+  kaiser: {
+    nombre: 'Johannes Kaiser',
+    partido: 'P. Nacional Libertario',
+    imagen: 'https://placehold.co/400x400/F59E0B/FFFFFF?text=JK',
+    tags: ['Libertad', 'Estado Mínimo', 'Cripto'],
+    categorias: {
+      economia: {
+        tendencia: { etiqueta: 'Enfoque Económico', izq: 'Rol del Estado', der: 'Libre Mercado', valor: 98 },
+        propuestas: [{
+          titulo: 'Abolir el Banco Central y dolarizar la economía',
+          detalle: 'Eliminar peso chileno. Adoptar dólar estadounidense como moneda oficial. Banco Central desaparece. Fin de inflación, estabilidad para inversión.',
+          verificar: ['Tasa de conversión peso-dólar', 'Tratamiento de reservas internacionales', 'Costo de transición', 'Impacto en exportaciones', 'Pérdida de política monetaria'],
+          problema: 'Banco Central manipula moneda generando inflación (3-4% anual). Devalúa ahorros. Inflación es impuesto encubierto. Chile debe anclar economía a activo sólido.',
+          desafios: ['Pérdida de política monetaria: no puede devaluar ante crisis', 'Ecuador crisis 1999: dolarización forzada tras colapso bancario', 'Reservas USD 40.000M insuficientes: requiere apoyo FED que no se dará', 'Exportaciones: cobre sería menos competitivo con dólar fuerte', 'Inflación USA: Chile importaría inflación de la FED (actualmente 3,7%)']
+        }]
+      },
+      seguridad: {
+        tendencia: { etiqueta: 'Enfoque en Seguridad', izq: 'Prevención Social', der: 'Mano Dura', valor: 92 },
+        propuestas: [{
+          titulo: 'Portar armas sin permiso: 2da Enmienda chilena',
+          detalle: 'Constitucionalizar derecho a portar armas de fuego sin licencia. Legítima defensa ampliada: propietario puede disparar a intruso sin consecuencias.',
+          verificar: ['Reforma constitucional requerida', 'Restricciones propuestas (edad, antecedentes)', 'Regulación de venta de armas', 'Responsabilidad por uso', 'Impacto en homicidios'],
+          problema: 'Delincuentes atacan porque ciudadanos están desarmados. Estado no puede proteger. Ciudadanos deben poder defenderse. EE.UU. tiene 2da Enmienda.',
+          desafios: ['Evidencia: estados con más armas tienen MÁS homicidios (Harvard Study)', 'Texas tiene: 13,6 homicidios por 100k vs California 5,7', 'Accidentes: 500 niños mueren anualmente en EE.UU. con armas en casa', 'Escalada: disputas menores (tráfico, deudas) terminarían en balaceras', 'Reforma constitucional: requiere 2/3 Congreso, imposible actualmente']
+        }]
+      },
+      migracion: {
+        tendencia: { etiqueta: 'Política Migratoria', izq: 'Regularización', der: 'Control/Expulsión', valor: 40 },
+        propuestas: [{
+          titulo: 'Fronteras abiertas: libre tránsito para quienes respeten propiedad',
+          detalle: 'Eliminar visas y permisos. Ingresar a Chile es libre. Único requisito: no delinquir. Migrantes aportan economía (emprendimiento, mano de obra).',
+          verificar: ['Eliminación de controles fronterizos', 'Mecanismo anti-delincuencia', 'Impacto fiscal', 'Regulación laboral', 'Experiencia comparable'],
+          problema: 'Controles migratorios son arbitrarios. Personas tienen derecho natural a moverse. Migrantes contribuyen: fundan empresas (25% en USA), pagan impuestos.',
+          desafios: ['Flujo masivo: 5-10 millones podrían ingresar en corto plazo', 'Servicios colapsarían: salud, educación incapaces de absorber', 'Ningún país lo hace: hasta UE exige Schengen', 'Seguridad: imposible verificar antecedentes criminales', 'Mercado laboral: salarios de baja calificación caerían 20-30%']
+        }]
+      },
+      salud: {
+        tendencia: { etiqueta: 'Sistema de Salud', izq: 'Sistema Único Público', der: 'Sistema Mixto', valor: 98 },
+        propuestas: [{
+          titulo: 'Legalizar venta libre de todos los medicamentos incluyendo antibióticos',
+          detalle: 'Eliminar receta médica obligatoria. Farmacéutico puede vender cualquier fármaco. Personas adultas deciden sobre su cuerpo. Regulación es paternalismo estatal.',
+          verificar: ['Medicamentos a liberar', 'Responsabilidad por automedicación', 'Rol de farmacéuticos', 'Advertencias sanitarias', 'Experiencia internacional'],
+          problema: 'Receta médica es barrera: obliga a gastar $30.000 en consulta para comprar antibiótico. Personas son dueñas de su cuerpo. Pueden decidir qué consumir.',
+          desafios: ['Resistencia antimicrobiana: OMS alerta que es crisis global', 'Mal uso de antibióticos: crea superbacterias inmunes', '10 millones morirán en 2050 por resistencia (OMS)', 'Intoxicaciones: opioides libres causaron 100.000 muertes en EE.UU. 2021', 'Ningún país desarrollado lo permite: todos requieren receta para controlados']
+        }]
+      },
+      social: {
+        tendencia: { etiqueta: 'Política Social', izq: 'Universalismo', der: 'Focalización', valor: 98 },
+        propuestas: [{
+          titulo: 'Privatizar educación: eliminar colegios públicos y MINEDUC',
+          detalle: 'Cerrar escuelas municipales. Padres contratan educación privada. Estado da voucher de $80.000/mes solo a extrema pobreza. Competencia mejora calidad.',
+          verificar: ['Proceso de cierre de colegios públicos', 'Monto de voucher', 'Regulación de colegios privados', 'Transición de docentes públicos', 'Impacto en cobertura'],
+          problema: 'Educación pública es ineficiente: SIMCE bajo, alto ausentismo docente, burocracia MINEDUC. Privados tienen mejores resultados. Monopolio estatal perjudica estudiantes.',
+          desafios: ['Cierre de 5.000 colegios: 1,5 millones de niños sin matrícula', 'Padres no pueden pagar: colegio privado cuesta $200.000/mes', 'Voucher insuficiente: $80.000 no cubre costos reales', 'Zonas rurales sin oferta: nadie abriría colegio en isla Chiloé', 'Evidencia: Chile ya es 90% privado y tiene segregación récord OCDE']
+        }]
+      },
+      tecnologia: {
+        tendencia: { etiqueta: 'Política Digital', izq: 'Acceso Público', der: 'Incentivo Privado', valor: 95 },
+        propuestas: [{
+          titulo: 'Bitcoin como moneda oficial junto al peso',
+          detalle: 'Reconocer Bitcoin como moneda de curso legal. Comercios deben aceptar BTC. Estado cobra impuestos en BTC. Protección contra inflación fiat.',
+          verificar: ['Marco legal propuesto', 'Obligatoriedad de aceptación', 'Conversión peso-BTC', 'Volatilidad y protección', 'Infraestructura tecnológica'],
+          problema: 'Peso se devalúa. Inflación erosiona ahorros. Bitcoin es escaso (21M), no puede ser manipulado por bancos centrales. Soberanía financiera individual.',
+          desafios: ['Volatilidad extrema: BTC perdió 70% en 2022', 'El Salvador perdió: USD 60M en inversión BTC', 'Comercios reacios: 80% no acepta BTC en El Salvador', 'Población sin educación financiera: 60% no entiende criptomonedas', 'Red Bitcoin: procesa 7 transacciones/seg vs Visa 65.000/seg']
+        }]
+      }
+    }
+  },
+  parisi: {
+    nombre: 'Franco Parisi',
+    partido: 'Partido de la Gente',
+    imagen: 'https://placehold.co/400x400/3B82F6/FFFFFF?text=FP',
+    tags: ['Anti-Elite', 'Pragmatismo', 'Tecnología'],
+    categorias: {
+      economia: {
+        tendencia: { etiqueta: 'Enfoque Económico', izq: 'Rol del Estado', der: 'Libre Mercado', valor: 50 },
+        propuestas: [{
+          titulo: 'Auditoría total del Estado para eliminar gastos innecesarios',
+          detalle: 'Contratar firma internacional para revisar cada peso gastado. Eliminar 40% de cargos públicos "de pituto". Ahorrar USD 10.000 millones anuales.',
+          verificar: ['Costo de auditoría', 'Ahorro fiscal proyectado', 'Cargos a eliminar', 'Proceso de implementación', 'Firma auditora propuesta'],
+          problema: 'Estado chileno es elefante blanco: 500.000 funcionarios, muchos sin función real. "Pitutos" políticos ganan $3M sin trabajar. Gente de a pie paga impuestos para mantener privilegiados.',
+          desafios: ['Ahorro de 40% es fantasía: OCDE dice máximo 5-8% es factible', 'Funcionarios tienen estabilidad: despidos masivos serían judicializados', 'Costo auditoría: USD 50-100 millones (McKinsey cobró USD 130M a Argentina)', 'Servicios críticos: enfermeras, profesores, policías serían afectados', 'Experiencia de Milei: despidió 30.000, provocó huelgas y caos']
+        }]
+      },
+      seguridad: {
+        tendencia: { etiqueta: 'Enfoque en Seguridad', izq: 'Prevención Social', der: 'Mano Dura', valor: 70 },
+        propuestas: [{
+          titulo: 'Policía tecnológica: cámaras con reconocimiento facial en todas las comunas',
+          detalle: 'Instalar 100.000 cámaras con IA. Reconocimiento facial para identificar delincuentes. Base de datos centralizada. Modelo China/Londres.',
+          verificar: ['Número de cámaras', 'Costo de implementación', 'Tecnología a utilizar', 'Protección de datos personales', 'Tasa de efectividad'],
+          problema: 'Delincuentes actúan porque no son identificados. Cámaras disuaden y permiten captura. Londres redujo crimen 30% con CCTV. Tecnología es aliada de seguridad.',
+          desafios: ['Costo: USD 1.500-2.500 millones', 'Privacidad: vigilancia masiva de toda la población', 'China usa: para control social autoritario, no solo crimen', 'Eficacia limitada: Londres tiene récord de puñaladas pese a cámaras', 'Sesgo algorítmico: IA tiene 35% error en personas de piel oscura (MIT)']
+        }]
+      },
+      migracion: {
+        tendencia: { etiqueta: 'Política Migratoria', izq: 'Regularización', der: 'Control/Expulsión', valor: 60 },
+        propuestas: [{
+          titulo: 'Migración por cuotas según necesidad laboral',
+          detalle: 'Establecer cupos anuales por sector económico. Empresas solicitan trabajadores extranjeros. Sistema de puntos por educación, experiencia. Modelo Australia/Canadá.',
+          verificar: ['Cuotas anuales por sector', 'Sistema de puntos', 'Proceso de solicitud', 'Verificación laboral', 'Tiempos de respuesta'],
+          problema: 'Chile necesita mano de obra en sectores específicos (salud, tecnología). Pero migración debe ser ordenada, responder a necesidad real.',
+          desafios: ['Sectores informales: construcción, comercio no harían trámites', 'Burocracia: Canadá tarda 18-36 meses en procesar', 'PyMEs: no tienen capacidad de gestión migratoria internacional', 'Rigidez: economía cambia rápido, cuotas son inflexibles', 'Agricultura: necesita mano de obra estacional, cuotas anuales no sirven']
+        }]
+      },
+      salud: {
+        tendencia: { etiqueta: 'Sistema de Salud', izq: 'Sistema Único Público', der: 'Sistema Mixto', valor: 60 },
+        propuestas: [{
+          titulo: 'Telemedicina masiva con inteligencia artificial',
+          detalle: 'App estatal con IA para diagnóstico preliminar 24/7. Reduce consultas innecesarias. Videollamada con médico si IA deriva. Receta electrónica directa a farmacia.',
+          verificar: ['Costo de desarrollo', 'Prestaciones cubiertas', 'Responsabilidad por errores diagnósticos', 'Integración con FONASA/Isapres', 'Plazos de implementación'],
+          problema: 'Personas esperan meses por hora médica. 60% de consultas son leves (resfríos, alergias). Telemedicina descongestiona sistema, da acceso inmediato, reduce costos.',
+          desafios: ['Diagnóstico erróneo: IA puede confundir infarto con indigestión', 'Brecha digital: 30% población adulta mayor sin smartphone', 'Responsabilidad legal: ¿quién responde si IA falla?', 'Médicos resisten: ven amenaza a su rol profesional', 'Costo: USD 200-400 millones en desarrollo y mantención']
+        }]
+      },
+      social: {
+        tendencia: { etiqueta: 'Política Social', izq: 'Universalismo', der: 'Focalización', valor: 45 },
+        propuestas: [{
+          titulo: 'Plebiscito vinculante para todas las decisiones importantes',
+          detalle: 'Ciudadanía vota directamente reformas tributarias, pensiones, constitución, tratados. Democracia directa. Políticos solo ejecutan. Suiza tiene 12 plebiscitos al año.',
+          verificar: ['Temas sometidos a plebiscito', 'Frecuencia de votaciones', 'Costo de implementación', 'Vinculación de resultados', 'Umbral de aprobación'],
+          problema: 'Políticos traicionan mandatos. Gente votó una cosa, hacen otra. Democracia representativa está quebrada. Demos poder directo a la ciudadanía.',
+          desafios: ['Populismo plebiscitario: decisiones técnicas requieren expertise', 'Fatiga electoral: Suiza tiene 50% abstención en plebiscitos', 'Mayoría tiraniza minoría: 51% puede quitar derechos al 49%', 'Manipulación mediática: quien controla TV controla resultado', 'Costo: USD 20-30 millones por plebiscito, 12 anuales = USD 300M']
+        }]
+      },
+      tecnologia: {
+        tendencia: { etiqueta: 'Política Digital', izq: 'Acceso Público', der: 'Incentivo Privado', valor: 45 },
+        propuestas: [{
+          titulo: 'Gobierno digital 100%: todos los trámites online en app única',
+          detalle: 'App "ChileGob" con 100% de trámites estatales. RUT, patentes, permisos, pensiones, todo en un lugar. Estonia lo tiene: 99% digital.',
+          verificar: ['Trámites a digitalizar', 'Costo de desarrollo', 'Plazos de implementación', 'Acceso para adultos mayores sin tecnología', 'Ciberseguridad'],
+          problema: 'Chilenos pierden días en filas. Burocracia es lenta, presencial, ineficiente. Digitalización 100% termina con pérdida de tiempo, mejora satisfacción ciudadana.',
+          desafios: ['Brecha digital: 30% de población no usa apps', 'Adultos mayores: requieren asistencia presencial', 'Ciberseguridad: hackeo de app sería catastrófico', 'Costo: USD 500-800 millones', 'Cultura de servicio público: funcionarios resisten automatización (temen perder empleo)']
+        }]
+      }
+    }
+  },
+  meo: {
+    nombre: 'M. Enríquez-Ominami',
+    partido: 'Independiente (Progresista)',
+    imagen: 'https://placehold.co/400x400/EF4444/FFFFFF?text=MEO',
+    tags: ['Progresismo', 'Cultura', 'DDHH'],
+    categorias: {
+      economia: {
+        tendencia: { etiqueta: 'Enfoque Económico', izq: 'Rol del Estado', der: 'Libre Mercado', valor: 35 },
+        propuestas: [{
+          titulo: 'Economía verde: invertir 5% del PIB en energías renovables',
+          detalle: 'Plan masivo de inversión pública en solar, eólica, hidrógeno verde. Crear 500.000 empleos verdes. Chile líder regional en transición energética.',
+          verificar: ['Monto de inversión anual', 'Sectores energéticos a priorizar', 'Proyección de empleos', 'Reducción de emisiones CO2', 'Fuentes de financiamiento'],
+          problema: 'Cambio climático es crisis existencial. Chile debe descarbonizarse. Tiene sol de Atacama, vientos patagónicos. Energía renovable es futuro económico Y ambiental.',
+          desafios: ['Costo: USD 13.000 millones anuales (5% del PIB)', 'Financiamiento: requiere deuda o impuestos adicionales', 'Empleos temporales: construcción sí, operación genera pocos puestos', 'Infraestructura: redes eléctricas no están preparadas', 'Dinamarca invirtió 40 años: no es replicable en 4 años']
+        }]
+      },
+      seguridad: {
+        tendencia: { etiqueta: 'Enfoque en Seguridad', izq: 'Prevención Social', der: 'Mano Dura', valor: 35 },
+        propuestas: [{
+          titulo: 'Legalizar marihuana recreativa con venta en tiendas estatales',
+          detalle: 'Permitir producción, venta y consumo de cannabis. Tiendas estatales como en Canadá. Impuesto 20% financia tratamiento de adicciones. Terminar con narcotráfico.',
+          verificar: ['Cantidad permitida para consumo personal', 'Edad mínima de compra', 'Regulación de tiendas', 'Impuestos propuestos', 'Programas de prevención'],
+          problema: 'Guerra contra marihuana fracasó. Cárceles llenas de consumidores. Narcotráfico controla venta. Legalización: quita recursos a criminales, genera impuestos, reduce violencia.',
+          desafios: ['Tratados ONU: Chile debe denunciar 3 convenciones', 'Consumo aumenta: Colorado +40% en jóvenes 12-17', 'Accidentes viales: conducción bajo influencia sube 30%', 'Turismo cannábico: problemas de Ámsterdam replicados', 'Tiendas estatales: déficits operacionales en varios estados EE.UU.']
+        }]
+      },
+      migracion: {
+        tendencia: { etiqueta: 'Política Migratoria', izq: 'Regularización', der: 'Control/Expulsión', valor: 25 },
+        propuestas: [{
+          titulo: 'Integración intercultural: programa de acogida para migrantes',
+          detalle: 'Clases de español, capacitación laboral, mediación cultural. Integrar migrantes a sociedad. Centros de acogida en cada comuna. Modelo Suecia.',
+          verificar: ['Cobertura del programa', 'Presupuesto anual', 'Servicios incluidos', 'Indicadores de éxito', 'Experiencia internacional'],
+          problema: 'Migrantes llegan sin red de apoyo. Xenofobia crece por desconocimiento. Integración reduce conflicto, mejora convivencia. Chile debe ser país acogedor.',
+          desafios: ['Costo: USD 300-500 millones anuales', 'Suecia está: retrocediendo política migratoria por "fracaso de integración"', 'Guetos étnicos: concentración en comunas perpetúa aislamiento', 'Xenofobia persiste: programas de integración tienen éxito limitado', 'Saturación servicios: municipios no tienen capacidad']
+        }]
+      },
+      salud: {
+        tendencia: { etiqueta: 'Sistema de Salud', izq: 'Sistema Único Público', der: 'Sistema Mixto', valor: 30 },
+        propuestas: [{
+          titulo: 'Salud mental universal: psicólogo gratuito en todos los colegios',
+          detalle: 'Contratar 5.000 psicólogos para cubrir colegios y CESFAM. Atención sin listas de espera. Prevención de suicidio, depresión, ansiedad.',
+          verificar: ['Número de profesionales a contratar', 'Presupuesto anual', 'Ratio psicólogo-estudiantes', 'Servicios incluidos', 'Plazos de implementación'],
+          problema: 'Chile tiene crisis de salud mental: 25% tiene trastornos (OCDE: 17%). Suicidio es 2da causa de muerte en jóvenes. Listas de espera: 8-12 meses.',
+          desafios: ['Déficit de psicólogos: faltan 3.000, universidades producen 1.200 anuales', 'Costo: USD 500-700 millones anuales', 'Estigma: jóvenes no van a psicólogo aunque esté disponible', 'Infraestructura: colegios no tienen espacios para consulta privada', 'Evidencia mixta: psicólogos escolares ayudan pero no resuelven crisis sistémica']
+        }]
+      },
+      social: {
+        tendencia: { etiqueta: 'Política Social', izq: 'Universalismo', der: 'Focalización', valor: 30 },
+        propuestas: [{
+          titulo: 'Matrimonio igualitario y adopción homoparental plena',
+          detalle: 'Modificar Código Civil para permitir matrimonio entre personas del mismo sexo sin restricciones. Igualdad de derechos en adopción, herencia, sucesión.',
+          verificar: ['Modificaciones legales requeridas', 'Tratamiento de unión civil actual', 'Adopciones conjuntas', 'Proceso de implementación', 'Oposición política'],
+          problema: 'Personas LGBT+ son ciudadanos de segunda clase. Unión civil no da plenos derechos. Discriminación es indigna. 74% de chilenos apoya matrimonio igualitario (IPSOS 2023).',
+          desafios: ['Oposición religiosa: Iglesias pedirán objeción de conciencia', 'Congreso dividido: requiere mayoría simple pero hay bloqueo conservador', 'Adopción: ya permitida desde 2022, esta propuesta es redundante', 'Implementación rápida: registro civil requiere actualizar sistemas', 'Resistencia en municipios conservadores: alcaldes podrían dilatar']
+        }]
+      },
+      tecnologia: {
+        tendencia: { etiqueta: 'Política Digital', izq: 'Acceso Público', der: 'Incentivo Privado', valor: 35 },
+        propuestas: [{
+          titulo: 'Fondo de financiamiento cultural para contenido digital chileno',
+          detalle: 'USD 200 millones anuales para series, películas, podcasts, videojuegos chilenos. Competir con Netflix. Promover identidad cultural.',
+          verificar: ['Monto del fondo', 'Criterios de asignación', 'Definición de "contenido chileno"', 'Mecanismos de distribución', 'Indicadores de éxito'],
+          problema: 'Plataformas extranjeras (Netflix, Spotify) dominan consumo. Cultura chilena pierde espacio. Estado debe financiar contenido nacional para preservar identidad.',
+          desafios: ['Costo: USD 200M anuales', 'Proteccionismo: contenido subsidiado no compite internacionalmente', 'Corrupción: asignación de fondos culturales históricamente clientelar', 'Audiencia limitada: chilenos igual prefieren series extranjeras', 'Netflix invierte: más que el Estado en producción local (USD 300M)']
+        }]
+      }
+    }
+  },
+  hmn: {
+    nombre: 'H. Mayne-Nicholls',
+    partido: 'Independiente (Centro)',
+    imagen: 'https://placehold.co/400x400/14B8A6/FFFFFF?text=HMN',
+    tags: ['Gestión', 'Consenso', 'Modernización'],
+    categorias: {
+      economia: {
+        tendencia: { etiqueta: 'Enfoque Económico', izq: 'Rol del Estado', der: 'Libre Mercado', valor: 60 },
+        propuestas: [{
+          titulo: 'Plan de infraestructura: USD 30.000 millones en carreteras, puertos',
+          detalle: 'Inversión público-privada en conectividad. Carreteras a Aysén, Magallanes. Nuevo aeropuerto Santiago. Ampliar puerto Valparaíso. Genera 300.000 empleos.',
+          verificar: ['Monto total de inversión', 'Proyectos específicos priorizados', 'Participación público-privada', 'Empleos generados', 'Plazos de ejecución'],
+          problema: 'Chile tiene infraestructura obsoleta: ruta 5 colapsada, aeropuerto saturado, puertos ineficientes. Inversión genera empleos, mejora competitividad.',
+          desafios: ['Financiamiento: USD 30.000M requiere endeudamiento o impuestos', 'Concesiones: han generado ganancias excesivas a privados', 'Proyectos faraónicos: alto riesgo de sobrecostos (Transantiago costó 3x)', 'Impacto ambiental: carreteras en zonas prístinas enfrentan oposición', 'Tiempo: grandes obras toman 10-15 años, no 4']
+        }]
+      },
+      seguridad: {
+        tendencia: { etiqueta: 'Enfoque en Seguridad', izq: 'Prevención Social', der: 'Mano Dura', valor: 60 },
+        propuestas: [{
+          titulo: 'Policía comunitaria: carabinero asignado por cuadra',
+          detalle: 'Modelo policial de proximidad. Cada barrio conoce a su policía. Prevención antes que reacción. Carabineros a pie, no en autos.',
+          verificar: ['Número de efectivos adicionales', 'Cobertura geográfica', 'Presupuesto anual', 'Capacitación en policía comunitaria', 'Indicadores de éxito'],
+          problema: 'Carabineros patrullan en auto sin conocer vecindarios. Modelo reactivo no previene delitos. Policía comunitaria genera confianza, reduce criminalidad.',
+          desafios: ['Requiere 30.000 efectivos adicionales', 'Costo: USD 800M-1.200M anuales', 'Cambio cultural: Carabineros resisten modelo comunitario', 'Zonas rurales: imposible cubrir', 'Resultados de largo plazo: reducción de crimen toma 5-7 años']
+        }]
+      },
+      migracion: {
+        tendencia: { etiqueta: 'Política Migratoria', izq: 'Regularización', der: 'Control/Expulsión', valor: 50 },
+        propuestas: [{
+          titulo: 'Regularización condicionada + control fronterizo reforzado',
+          detalle: 'Legalizar migrantes con 3+ años residencia Y control estricto de nuevos ingresos. Balance entre derechos y orden.',
+          verificar: ['Requisitos de regularización', 'Inversión en control fronterizo', 'Número a regularizar', 'Efectivos PDI adicionales', 'Equilibrio de medidas'],
+          problema: 'Chile necesita balance: regularizar antiguos residentes pero controlar frontera. Posición intermedia puede generar consenso político.',
+          desafios: ['Ambos sectores rechazan: izquierda quiere solo regularización, derecha solo control', 'Costo: USD 1.000-1.500 millones', 'Coordinación compleja entre múltiples instituciones', 'Fronteras siguen porosas pese a inversión', 'Regularización tardía: procesos toman 2-3 años']
+        }]
+      },
+      salud: {
+        tendencia: { etiqueta: 'Sistema de Salud', izq: 'Sistema Único Público', der: 'Sistema Mixto', valor: 50 },
+        propuestas: [{
+          titulo: 'Sistema mixto optimizado: Isapres reguladas + FONASA fortalecido',
+          detalle: 'Mantener sistema dual pero regulando abusos de Isapres y mejorando FONASA. Invertir en ambos para coexistencia eficiente.',
+          verificar: ['Regulación propuesta para Isapres', 'Inversión en FONASA', 'Mecanismos de solidaridad', 'Estándares mínimos de cobertura', 'Costo fiscal'],
+          problema: 'Ningún extremo funciona: sistema único es costoso fiscalmente, Isapres sin regulación abusan. Sistema mixto regulado puede ser eficiente.',
+          desafios: ['Izquierda rechaza Isapres, derecha rechaza regulación fuerte', 'Costo: USD 3.000-5.000 millones en mejoras FONASA', 'Isapres litigarán cualquier regulación nueva', 'FONASA requiere inversión masiva en infraestructura', 'Consenso político prácticamente inexistente']
+        }]
+      },
+      social: {
+        tendencia: { etiqueta: 'Política Social', izq: 'Universalismo', der: 'Focalización', valor: 50 },
+        propuestas: [{
+          titulo: 'Sistema mixto de pensiones: componente solidario + capitalización',
+          detalle: '3% de cotización va a fondo solidario, 7% a cuenta individual. Pensión mínima garantizada $250.000. Balance entre solidaridad y ahorro individual.',
+          verificar: ['Distribución de cotización', 'Monto de pensión mínima garantizada', 'Financiamiento del pilar solidario', 'Transición desde AFP actual', 'Sostenibilidad financiera'],
+          problema: 'AFP puras generan pensiones bajas. Sistema estatal puro (reparto) es insostenible fiscalmente con envejecimiento poblacional. Sistema mixto balancea ambos.',
+          desafios: ['AFP se oponen: pierden 30% de flujo de cotizaciones', 'Izquierda quiere 100% solidario, derecha 100% individual', 'Costo fiscal: USD 2.000-3.000 millones anuales para pilar solidario', 'Transición compleja: requiere reforma legal profunda, toma 10-15 años', 'Riesgo político: desconfianza ciudadana en cualquier sistema con AFP']
+        }]
+      },
+      tecnologia: {
+        tendencia: { etiqueta: 'Política Digital', izq: 'Acceso Público', der: 'Incentivo Privado', valor: 55 },
+        propuestas: [{
+          titulo: 'Alianza público-privada para fibra óptica rural',
+          detalle: 'Estado subsidia inversión privada en zonas no rentables. Empresas construyen infraestructura con apoyo fiscal. Cobertura 95% en 5 años.',
+          verificar: ['Monto de subsidio estatal', 'Zonas priorizadas', 'Obligaciones de empresas', 'Velocidades mínimas garantizadas', 'Mecanismos de fiscalización'],
+          problema: 'Zonas rurales sin conexión de calidad. Mercado privado no invierte sin subsidio porque no es rentable. Estado no tiene capacidad de construir solo.',
+          desafios: ['Costo: USD 1.500-2.000 millones en subsidios', 'Empresas captarán subsidio sin cumplir metas (experiencia negativa)', 'Mantenimiento: quién asume costos operacionales en el tiempo', 'Última milla sigue siendo problema técnico y económico', 'Experiencia: programas pasados (Fibra Óptica Austral) con resultados mixtos']
+        }]
+      }
+    }
+  },
+  artes: {
+    nombre: 'Eduardo Artés',
+    partido: 'Ind. (Acción Proletaria)',
+    imagen: 'https://placehold.co/400x400/6B7280/FFFFFF?text=EA',
+    tags: ['Marxismo', 'Anti-Imperialismo', 'Estatización'],
+    categorias: {
+      economia: {
+        tendencia: { etiqueta: 'Enfoque Económico', izq: 'Rol del Estado', der: 'Libre Mercado', valor: 5 },
+        propuestas: [{
+          titulo: 'Estatizar toda la banca y el sistema financiero',
+          detalle: 'Nacionalizar bancos privados sin compensación. Estado controla 100% del crédito. Terminar con usura capitalista. Banca al servicio del pueblo.',
+          verificar: ['Marco legal de estatización', 'Compensación (o expropiación) a accionistas', 'Gestión de bancos estatizados', 'Impacto en ahorrantes', 'Experiencia internacional'],
+          problema: 'Bancos son herramienta de explotación capitalista. Cobran tasas usureras a trabajadores mientras dan créditos baratos a empresarios. Sistema financiero debe ser del pueblo.',
+          desafios: ['Tratados internacionales: arbitrajes millonarios contra Chile', 'Fuga de capitales masiva e inmediata', 'Gestión estatal: historial de quiebras bancarias estatales', 'Venezuela estatizó banca: colapso económico total', 'Sistema financiero internacional aislaría a Chile, sin acceso a crédito externo']
+        }]
+      },
+      seguridad: {
+        tendencia: { etiqueta: 'Enfoque en Seguridad', izq: 'Prevención Social', der: 'Mano Dura', valor: 15 },
+        propuestas: [{
+          titulo: 'Desmilitarización total y policía comunitaria autogestionada',
+          detalle: 'Disolver Carabineros y FFAA. Crear milicias populares en cada barrio. Seguridad del pueblo, para el pueblo, por el pueblo. Fin del aparato represivo burgués.',
+          verificar: ['Proceso de disolución institucional', 'Estructura de milicias populares', 'Entrenamiento y armamento', 'Coordinación nacional', 'Marco legal'],
+          problema: 'Carabineros y militares reprimen al pueblo trabajador. Son instrumento de la clase dominante para mantener el orden capitalista. Deben ser reemplazados por milicias del pueblo.',
+          desafios: ['Caos inmediato: crimen organizado tomaría control territorial', 'Milicias sin entrenamiento profesional: alto riesgo de vigilantismo', 'Experiencia histórica: Somalia, Libia colapsaron sin fuerzas de seguridad', 'Constitución prohíbe grupos armados privados', 'Comunidad internacional aislaría completamente a Chile']
+        }]
+      },
+      migracion: {
+        tendencia: { etiqueta: 'Política Migratoria', izq: 'Regularización', der: 'Control/Expulsión', valor: 10 },
+        propuestas: [{
+          titulo: 'Solidaridad internacionalista: acoger refugiados del imperialismo',
+          detalle: 'Abrir fronteras a todas las víctimas de guerras imperialistas y explotación capitalista. Integración plena sin restricciones. Hermandad proletaria internacional.',
+          verificar: ['Países de origen priorizados', 'Número estimado de refugiados', 'Apoyos de integración', 'Presupuesto asignado', 'Definición de "víctima del imperialismo"'],
+          problema: 'Trabajadores del mundo deben unirse contra el capital. Fronteras son construcciones burguesas para dividir a la clase trabajadora. Solidaridad internacional es deber revolucionario.',
+          desafios: ['Definición política subjetiva: ¿quién califica como víctima del imperialismo?', 'Flujo migratorio imposible de gestionar', 'Servicios públicos completamente colapsados', 'Absolutamente ningún país implementa esto', 'Rechazo masivo de población (85%+ según encuestas)']
+        }]
+      },
+      salud: {
+        tendencia: { etiqueta: 'Sistema de Salud', izq: 'Sistema Único Público', der: 'Sistema Mixto', valor: 0 },
+        propuestas: [{
+          titulo: 'Sistema de salud 100% estatal gratuito, expropiar todas las clínicas',
+          detalle: 'Estatizar todas las clínicas y farmacias privadas sin compensación. Salud como derecho absoluto, no mercancía. Fin del lucro con el sufrimiento del pueblo.',
+          verificar: ['Clínicas y farmacias a expropiar', 'Proceso de expropiación', 'Gestión de infraestructura expropiada', 'Retención de personal médico', 'Costo fiscal total'],
+          problema: 'Salud privada es lucro obsceno con el sufrimiento humano. Clínicas cobran fortunas mientras pueblo muere. Solo el Estado puede garantizar salud para todos.',
+          desafios: ['Médicos especialistas huirán masivamente del país', 'Gestión estatal: hospitales públicos actuales ya colapsados', 'Costo: USD 20.000-30.000 millones solo en transición', 'Venezuela estatizó salud: escasez total de medicamentos y equipos', 'Cuba: sistema de salud colapsado, médicos ganan USD 30/mes, éxodo masivo']
+        }]
+      },
+      social: {
+        tendencia: { etiqueta: 'Política Social', izq: 'Universalismo', der: 'Focalización', valor: 0 },
+        propuestas: [{
+          titulo: 'Abolir la propiedad privada de todos los medios de producción',
+          detalle: 'Expropiar sin compensación: fábricas, tierras agrícolas, empresas. Gestión obrera directa de la economía. Planificación central socialista. Socialismo científico real.',
+          verificar: ['Empresas y propiedades a expropiar', 'Mecanismos de gestión obrera', 'Sistema de planificación central', 'Distribución de bienes', 'Marco legal y constitucional'],
+          problema: 'Propiedad privada de medios de producción es robo sistemático al trabajador. Capitalismo explota plusvalía del trabajo. Debe ser abolido para construir socialismo.',
+          desafios: ['Economía se detendría completamente e inmediatamente', 'Gestión obrera sin capacitación: USSR colapsó tras 70 años', 'Escasez generalizada y hambruna: Venezuela, Cuba, Corea del Norte', 'Aislamiento internacional absoluto, bloqueo económico total', 'Chile enfrentaría crisis humanitaria catastrófica en menos de 12 meses']
+        }]
+      },
+      tecnologia: {
+        tendencia: { etiqueta: 'Política Digital', izq: 'Acceso Público', der: 'Incentivo Privado', valor: 10 },
+        propuestas: [{
+          titulo: 'Nacionalizar telecomunicaciones y crear internet del pueblo',
+          detalle: 'Expropiar sin compensación: Movistar, Entel, Claro, VTR. Internet estatal controlado democráticamente por trabajadores del sector. Comunicaciones al servicio del pueblo.',
+          verificar: ['Empresas a nacionalizar', 'Valuación (o expropiación directa)', 'Gestión democrática de redes', 'Tarifas propuestas', 'Inversión en infraestructura tecnológica'],
+          problema: 'Empresas de telecomunicaciones privadas multinacionales explotan a usuarios chilenos con tarifas abusivas. Comunicaciones son derecho fundamental que debe ser estatal.',
+          desafios: ['Arbitrajes internacionales: USD 10.000-20.000 millones en demandas', 'Redes tecnológicas colapsarían inmediatamente sin expertise técnico', 'Inversión en tecnología 5G se detendría completamente', 'Venezuela nacionalizó telecomunicaciones: servicio pésimo, internet más lento de región', 'Chile quedaría completamente aislado digitalmente del mundo']
+        }]
+      }
+    }
+  }
+};
+
+const CATEGORIAS = {
+  economia: 'Economía',
+  seguridad: 'Seguridad',
+  migracion: 'Migración',
+  salud: 'Salud',
+  social: 'Social',
+  tecnologia: 'Tecnología'
+};
+
+// ========================================
+// ESTADO Y ELEMENTOS DOM
+// ========================================
+
+let candidatoActual = 'jara';
+let categoriaActual = 'economia';
+
+const elems = {
+  viewOverview: document.getElementById('view-overview'),
+  viewDashboard: document.getElementById('view-dashboard'),
+  gridCandidatos: document.getElementById('grid-candidatos'),
+  btnVolver: document.getElementById('btn-volver'),
+  selectorDesktop: document.getElementById('selector-desktop'),
+  selectorMobile: document.getElementById('selector-mobile'),
+  candImg: document.getElementById('cand-img'),
+  candName: document.getElementById('cand-name'),
+  candParty: document.getElementById('cand-party'),
+  candTags: document.getElementById('cand-tags'),
+  tabsCategorias: document.getElementById('tabs-categorias'),
+  contenidoTendencia: document.getElementById('contenido-tendencia'),
+  numPropuestas: document.getElementById('num-propuestas'),
+  listaPropuestas: document.getElementById('lista-propuestas'),
+  modal: document.getElementById('modal'),
+  modalCerrar: document.getElementById('modal-cerrar'),
+  modalCerrar2: document.getElementById('modal-cerrar-2'),
+  modalPropuesta: document.getElementById('modal-propuesta'),
+  modalDetalle: document.getElementById('modal-detalle'),
+  modalVerificar: document.getElementById('modal-verificar'),
+  modalProblema: document.getElementById('modal-problema'),
+  modalDesafios: document.getElementById('modal-desafios')
+};
+
+// ========================================
+// UTILIDADES
+// ========================================
+
+function escapar(txt) {
+  const div = document.createElement('div');
+  div.textContent = txt;
+  return div.innerHTML;
+}
+
+function mostrarVista(vista) {
+  if (vista === 'overview') {
+    elems.viewOverview.classList.remove('hidden');
+    elems.viewDashboard.classList.add('hidden');
+  } else {
+    elems.viewOverview.classList.add('hidden');
+    elems.viewDashboard.classList.remove('hidden');
+  }
+}
+
+// ========================================
+// RENDERIZADO
+// ========================================
+
+function renderizarCards() {
+  let html = '';
+  for (let id in CANDIDATOS) {
+    const c = CANDIDATOS[id];
+    html += `
+      <div class="card bg-white rounded-2xl shadow-lg overflow-hidden fade-in" data-cand="${id}">
+        <img src="${c.imagen}" alt="${escapar(c.nombre)}" class="w-full h-64 object-cover">
+        <div class="p-6 text-center">
+          <h3 class="text-xl font-bold text-gray-900 mb-2">${escapar(c.nombre)}</h3>
+          <p class="text-sm text-gray-600 mb-4">${escapar(c.partido)}</p>
+          <button class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 px-6 rounded-xl font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all shadow-md hover:shadow-lg">
+            Ver Propuestas
+          </button>
+        </div>
+      </div>
+    `;
+  }
+  elems.gridCandidatos.innerHTML = html;
+  
+  // Event listeners
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', () => {
+      candidatoActual = card.dataset.cand;
+      categoriaActual = 'economia';
+      mostrarVista('dashboard');
+      renderizarDashboard();
+    });
+  });
+}
+
+function renderizarDashboard() {
+  const cand = CANDIDATOS[candidatoActual];
+  const cat = cand.categorias[categoriaActual];
+  
+  // Header candidato
+  elems.candImg.src = cand.imagen;
+  elems.candImg.alt = cand.nombre;
+  elems.candName.textContent = cand.nombre;
+  elems.candParty.textContent = cand.partido;
+  elems.candTags.innerHTML = cand.tags.map(t => `<span class="badge badge-blue">${escapar(t)}</span>`).join('');
+  
+  // Selectores
+  let htmlDesktop = '';
+  let htmlMobile = '';
+  for (let id in CANDIDATOS) {
+    const c = CANDIDATOS[id];
+    const activo = id === candidatoActual ? 'active' : '';
+    htmlDesktop += `<button class="btn-cand ${activo} text-left text-sm font-medium text-gray-700" data-cand="${id}">${escapar(c.nombre)}</button>`;
+    htmlMobile += `<button class="btn-cand ${activo} px-6 py-3 bg-white rounded-lg text-sm font-semibold border-2 border-gray-200 text-gray-700 whitespace-nowrap flex-shrink-0" data-cand="${id}">${escapar(c.nombre)}</button>`;
+  }
+  elems.selectorDesktop.innerHTML = htmlDesktop;
+  elems.selectorMobile.innerHTML = htmlMobile;
+  
+  document.querySelectorAll('.btn-cand').forEach(btn => {
+    btn.addEventListener('click', () => {
+      candidatoActual = btn.dataset.cand;
+      categoriaActual = 'economia';
+      renderizarDashboard();
+    });
+  });
+  
+  // Tabs categorías
+  let htmlTabs = '';
+  for (let id in CATEGORIAS) {
+    const activo = id === categoriaActual ? 'active' : '';
+    htmlTabs += `<li class="tab ${activo} text-gray-600 hover:text-indigo-600 font-medium" data-cat="${id}">${CATEGORIAS[id]}</li>`;
+  }
+  elems.tabsCategorias.innerHTML = htmlTabs;
+  
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      categoriaActual = tab.dataset.cat;
+      renderizarDashboard();
+    });
+  });
+  
+  // Tendencia
+  const tend = cat.tendencia;
+  elems.contenidoTendencia.innerHTML = `
+    <div class="mb-3">
+      <h4 class="text-sm font-semibold text-gray-700 mb-2">${escapar(tend.etiqueta)}</h4>
+      <div class="flex justify-between text-xs text-gray-600 mb-2">
+        <span>${escapar(tend.izq)}</span>
+        <span>${escapar(tend.der)}</span>
+      </div>
+      <div class="trend-bar">
+        <div class="trend-dot" style="left: ${tend.valor}%"></div>
+      </div>
+    </div>
+    <p class="text-xs text-gray-600 mt-3">
+      <strong>Análisis:</strong> Este candidato propone políticas orientadas hacia <strong>${tend.valor < 50 ? escapar(tend.izq) : escapar(tend.der)}</strong>
+    </p>
+  `;
+  
+  // Propuestas
+  elems.numPropuestas.textContent = `(${cat.propuestas.length} propuestas)`;
+  let htmlProps = '';
+  cat.propuestas.forEach((p, idx) => {
+    htmlProps += `
+      <li class="prop p-4 bg-white rounded-xl border border-gray-200 hover:shadow-md transition-all" data-idx="${idx}">
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center flex-shrink-0">
+            <span class="text-indigo-700 font-bold">${idx + 1}</span>
+          </div>
+          <div class="flex-1">
+            <p class="text-gray-800 font-medium leading-relaxed mb-2">${escapar(p.titulo)}</p>
+            <p class="text-xs text-indigo-600 font-semibold">→ Clic para análisis completo</p>
+          </div>
+        </div>
+      </li>
+    `;
+  });
+  elems.listaPropuestas.innerHTML = htmlProps;
+  
+  document.querySelectorAll('.prop').forEach(item => {
+    item.addEventListener('click', () => {
+      const idx = parseInt(item.dataset.idx);
+      abrirModal(cat.propuestas[idx]);
+    });
+  });
+}
+
+function abrirModal(prop) {
+  elems.modalPropuesta.textContent = prop.titulo;
+  elems.modalDetalle.textContent = prop.detalle;
+  
+  // Verificar
+  let htmlVerif = '';
+  prop.verificar.forEach(v => {
+    htmlVerif += `<li class="text-gray-700">• ${escapar(v)}</li>`;
+  });
+  elems.modalVerificar.innerHTML = htmlVerif;
+  
+  // Problema
+  elems.modalProblema.textContent = prop.problema;
+  
+  // Desafíos
+  let htmlDesaf = '';
+  prop.desafios.forEach(d => {
+    htmlDesaf += `<li class="text-gray-700">• ${escapar(d)}</li>`;
+  });
+  elems.modalDesafios.innerHTML = htmlDesaf;
+  
+  elems.modal.classList.remove('hidden');
+}
+
+function cerrarModal() {
+  elems.modal.classList.add('hidden');
+}
+
+// ========================================
+// INICIALIZACIÓN
+// ========================================
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderizarCards();
+  
+  // Event listeners globales
+  elems.btnVolver.addEventListener('click', () => mostrarVista('overview'));
+  elems.modalCerrar.addEventListener('click', cerrarModal);
+  elems.modalCerrar2.addEventListener('click', cerrarModal);
+  elems.modal.addEventListener('click', (e) => {
+    if (e.target === elems.modal) cerrarModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !elems.modal.classList.contains('hidden')) cerrarModal();
+  });
+});
+</script>
+
+</body>
+</html>

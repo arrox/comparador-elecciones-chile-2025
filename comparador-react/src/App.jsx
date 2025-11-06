@@ -9,7 +9,7 @@ import QuizPage from './pages/QuizPage';
 function App() {
   return (
     <ThemeProvider>
-      <Router>
+      <Router basename="/comparador-elecciones-chile-2025">
         <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 transition-colors duration-300">
           <Routes>
             <Route path="/" element={<HomePage />} />

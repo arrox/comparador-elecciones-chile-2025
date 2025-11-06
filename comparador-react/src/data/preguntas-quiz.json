@@ -1,0 +1,677 @@
+[
+  {
+    "id": 1,
+    "categoria": "economia",
+    "pregunta": "¿Cuál debería ser el rol del Estado en la economía?",
+    "opciones": [
+      {
+        "texto": "El Estado debe controlar sectores estratégicos y redistribuir riqueza",
+        "peso": 0,
+        "descripcion": "Enfoque estatista con fuerte intervención"
+      },
+      {
+        "texto": "El Estado debe regular y equilibrar el mercado",
+        "peso": 35,
+        "descripcion": "Enfoque mixto con regulación moderada"
+      },
+      {
+        "texto": "El Estado debe intervenir mínimamente, dejando libertad al mercado",
+        "peso": 70,
+        "descripcion": "Enfoque liberal con poca intervención"
+      },
+      {
+        "texto": "El mercado debe ser completamente libre sin intervención estatal",
+        "peso": 100,
+        "descripcion": "Enfoque libertario de libre mercado"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "categoria": "economia",
+    "pregunta": "¿Cómo deberían financiarse los servicios públicos?",
+    "opciones": [
+      {
+        "texto": "Con impuestos progresivos altos a grandes fortunas",
+        "peso": 0,
+        "descripcion": "Redistribución fuerte"
+      },
+      {
+        "texto": "Con impuestos moderados y equilibrados",
+        "peso": 40,
+        "descripcion": "Sistema mixto"
+      },
+      {
+        "texto": "Con impuestos bajos y fomento a lo privado",
+        "peso": 75,
+        "descripcion": "Reducción de carga tributaria"
+      },
+      {
+        "texto": "Con mínimos impuestos, principalmente servicios privados",
+        "peso": 100,
+        "descripcion": "Estado mínimo"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "categoria": "economia",
+    "pregunta": "¿Qué opinas sobre las empresas estatales?",
+    "opciones": [
+      {
+        "texto": "Deberían controlar sectores estratégicos (salud, energía, transporte)",
+        "peso": 0,
+        "descripcion": "Estatización de sectores clave"
+      },
+      {
+        "texto": "Mantener algunas empresas estatales en áreas específicas",
+        "peso": 40,
+        "descripcion": "Modelo mixto"
+      },
+      {
+        "texto": "Privatizar gradualmente las empresas estatales",
+        "peso": 75,
+        "descripcion": "Reducción del Estado empresario"
+      },
+      {
+        "texto": "Privatizar todas las empresas estatales",
+        "peso": 100,
+        "descripcion": "Estado sin empresas"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "categoria": "economia",
+    "pregunta": "¿Cómo debería ser el sistema de pensiones?",
+    "opciones": [
+      {
+        "texto": "Sistema estatal de reparto solidario",
+        "peso": 0,
+        "descripcion": "Pensiones administradas por el Estado"
+      },
+      {
+        "texto": "Sistema mixto con componente público y privado",
+        "peso": 45,
+        "descripcion": "Combinación de ambos modelos"
+      },
+      {
+        "texto": "Sistema de capitalización individual mejorado",
+        "peso": 80,
+        "descripcion": "AFPs con mejoras regulatorias"
+      },
+      {
+        "texto": "Libertad total para elegir cómo ahorrar para pensión",
+        "peso": 100,
+        "descripcion": "Sin sistema obligatorio"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "categoria": "seguridad",
+    "pregunta": "¿Cuál es tu posición sobre las penas de prisión?",
+    "opciones": [
+      {
+        "texto": "Enfoque en rehabilitación y penas alternativas",
+        "peso": 0,
+        "descripcion": "Justicia restaurativa"
+      },
+      {
+        "texto": "Balance entre rehabilitación y castigo",
+        "peso": 40,
+        "descripcion": "Enfoque equilibrado"
+      },
+      {
+        "texto": "Penas más duras y mayor tiempo de cárcel",
+        "peso": 75,
+        "descripcion": "Mano dura con delincuencia"
+      },
+      {
+        "texto": "Penas máximas, incluyendo cadena perpetua efectiva",
+        "peso": 100,
+        "descripcion": "Máximo rigor penal"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "categoria": "seguridad",
+    "pregunta": "¿Qué opinas sobre el uso de Fuerzas Armadas en seguridad interna?",
+    "opciones": [
+      {
+        "texto": "Solo para desastres naturales, no en seguridad pública",
+        "peso": 0,
+        "descripcion": "Separación estricta de roles"
+      },
+      {
+        "texto": "Solo en casos excepcionales y controlados",
+        "peso": 35,
+        "descripcion": "Uso limitado y supervisado"
+      },
+      {
+        "texto": "En zonas críticas con alta delincuencia",
+        "peso": 70,
+        "descripcion": "Apoyo en territorios específicos"
+      },
+      {
+        "texto": "Permanentemente en control fronterizo y combate al crimen",
+        "peso": 100,
+        "descripcion": "Militarización de la seguridad"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "categoria": "seguridad",
+    "pregunta": "¿Cómo deberían controlarse las protestas sociales?",
+    "opciones": [
+      {
+        "texto": "Garantizar derecho a manifestación con mínima intervención",
+        "peso": 0,
+        "descripcion": "Libertad de protesta amplia"
+      },
+      {
+        "texto": "Permitir protestas pacíficas con regulación moderada",
+        "peso": 40,
+        "descripcion": "Balance entre orden y libertad"
+      },
+      {
+        "texto": "Control estricto con permisos previos obligatorios",
+        "peso": 75,
+        "descripcion": "Regulación preventiva"
+      },
+      {
+        "texto": "Prohibición de marchas en zonas clave y tolerancia cero",
+        "peso": 100,
+        "descripcion": "Restricción máxima"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "categoria": "seguridad",
+    "pregunta": "¿Qué opinas sobre el porte de armas para civiles?",
+    "opciones": [
+      {
+        "texto": "Prohibición total del porte de armas",
+        "peso": 0,
+        "descripcion": "Control estatal absoluto"
+      },
+      {
+        "texto": "Solo para personal autorizado con requisitos estrictos",
+        "peso": 45,
+        "descripcion": "Sistema actual mejorado"
+      },
+      {
+        "texto": "Facilitar el porte legal para defensa personal",
+        "peso": 80,
+        "descripcion": "Mayor acceso con controles"
+      },
+      {
+        "texto": "Derecho constitucional al porte sin restricciones",
+        "peso": 100,
+        "descripcion": "Libertad plena de porte"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "categoria": "migracion",
+    "pregunta": "¿Cuál debería ser la política migratoria de Chile?",
+    "opciones": [
+      {
+        "texto": "Fronteras abiertas con integración y derechos plenos",
+        "peso": 0,
+        "descripcion": "Política migratoria abierta"
+      },
+      {
+        "texto": "Migración regulada con cuotas y requisitos razonables",
+        "peso": 40,
+        "descripcion": "Control moderado"
+      },
+      {
+        "texto": "Restricción con visas estrictas y control fronterizo fuerte",
+        "peso": 75,
+        "descripcion": "Política restrictiva"
+      },
+      {
+        "texto": "Cierre casi total con deportaciones masivas",
+        "peso": 100,
+        "descripcion": "Control máximo"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "categoria": "migracion",
+    "pregunta": "¿Qué hacer con los migrantes irregulares?",
+    "opciones": [
+      {
+        "texto": "Regularización amplia con acceso a servicios",
+        "peso": 0,
+        "descripcion": "Amnistía migratoria"
+      },
+      {
+        "texto": "Regularización caso a caso con requisitos",
+        "peso": 40,
+        "descripcion": "Proceso selectivo"
+      },
+      {
+        "texto": "Deportación con excepciones humanitarias",
+        "peso": 75,
+        "descripcion": "Cumplimiento estricto"
+      },
+      {
+        "texto": "Deportación inmediata sin excepciones",
+        "peso": 100,
+        "descripcion": "Tolerancia cero"
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "categoria": "migracion",
+    "pregunta": "¿Cómo debería Chile manejar la crisis migratoria en la frontera norte?",
+    "opciones": [
+      {
+        "texto": "Acogida humanitaria con campamentos y apoyo internacional",
+        "peso": 0,
+        "descripcion": "Enfoque humanitario"
+      },
+      {
+        "texto": "Control ordenado con centros de procesamiento",
+        "peso": 40,
+        "descripcion": "Gestión migratoria"
+      },
+      {
+        "texto": "Cierre parcial con retorno de irregulares",
+        "peso": 75,
+        "descripcion": "Control fronterizo fuerte"
+      },
+      {
+        "texto": "Militarización de la frontera con muro o barrera física",
+        "peso": 100,
+        "descripcion": "Cierre total"
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "categoria": "salud",
+    "pregunta": "¿Cómo debería funcionar el sistema de salud?",
+    "opciones": [
+      {
+        "texto": "Sistema único estatal universal y gratuito",
+        "peso": 0,
+        "descripcion": "Salud pública universal"
+      },
+      {
+        "texto": "Fortalecer FONASA con opción privada complementaria",
+        "peso": 40,
+        "descripcion": "Sistema mixto público-privado"
+      },
+      {
+        "texto": "Competencia entre isapres mejoradas y FONASA",
+        "peso": 75,
+        "descripcion": "Mercado regulado"
+      },
+      {
+        "texto": "Sistema completamente privado con subsidios focalizados",
+        "peso": 100,
+        "descripcion": "Privatización total"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "categoria": "salud",
+    "pregunta": "¿Qué opinas sobre la industria farmacéutica?",
+    "opciones": [
+      {
+        "texto": "Farmacéutica estatal que produzca medicamentos genéricos",
+        "peso": 0,
+        "descripcion": "Producción estatal"
+      },
+      {
+        "texto": "Regulación de precios y promoción de genéricos",
+        "peso": 40,
+        "descripcion": "Control de mercado"
+      },
+      {
+        "texto": "Libre competencia con mayor información al consumidor",
+        "peso": 75,
+        "descripcion": "Mercado con transparencia"
+      },
+      {
+        "texto": "Libertad total de precios sin intervención",
+        "peso": 100,
+        "descripcion": "Libre mercado farmacéutico"
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "categoria": "salud",
+    "pregunta": "¿Cuál es tu posición sobre la eutanasia?",
+    "opciones": [
+      {
+        "texto": "Derecho a la muerte digna con requisitos claros",
+        "peso": 0,
+        "descripcion": "Eutanasia legal regulada"
+      },
+      {
+        "texto": "Solo en casos terminales con múltiples validaciones",
+        "peso": 40,
+        "descripcion": "Acceso restringido"
+      },
+      {
+        "texto": "Priorizar cuidados paliativos, evitar eutanasia activa",
+        "peso": 75,
+        "descripcion": "Alternativas al suicidio asistido"
+      },
+      {
+        "texto": "Prohibición total por razones éticas o religiosas",
+        "peso": 100,
+        "descripcion": "Ilegalidad absoluta"
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "categoria": "salud",
+    "pregunta": "¿Cómo resolver las listas de espera en salud pública?",
+    "opciones": [
+      {
+        "texto": "Inversión masiva en hospitales y contratación de personal",
+        "peso": 0,
+        "descripcion": "Fortalecimiento del sector público"
+      },
+      {
+        "texto": "Alianzas público-privadas para atención complementaria",
+        "peso": 40,
+        "descripcion": "Colaboración mixta"
+      },
+      {
+        "texto": "Vouchers para atenderse en clínicas privadas",
+        "peso": 75,
+        "descripcion": "Subsidio a la demanda"
+      },
+      {
+        "texto": "Privatización de hospitales públicos",
+        "peso": 100,
+        "descripcion": "Solución de mercado"
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "categoria": "social",
+    "pregunta": "¿Cuál es tu posición sobre el matrimonio igualitario y adopción homoparental?",
+    "opciones": [
+      {
+        "texto": "Plenos derechos de matrimonio y adopción para parejas del mismo sexo",
+        "peso": 0,
+        "descripcion": "Igualdad total"
+      },
+      {
+        "texto": "Acuerdo de Unión Civil con algunos derechos, no adopción",
+        "peso": 40,
+        "descripcion": "Derechos limitados"
+      },
+      {
+        "texto": "Mantener matrimonio como unión hombre-mujer",
+        "peso": 75,
+        "descripcion": "Definición tradicional"
+      },
+      {
+        "texto": "Oposición total por razones morales o religiosas",
+        "peso": 100,
+        "descripcion": "Rechazo absoluto"
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "categoria": "social",
+    "pregunta": "¿Qué opinas sobre el aborto?",
+    "opciones": [
+      {
+        "texto": "Aborto libre hasta cierta semana de gestación",
+        "peso": 0,
+        "descripcion": "Derecho de la mujer"
+      },
+      {
+        "texto": "Aborto en tres causales (actual ley chilena)",
+        "peso": 40,
+        "descripcion": "Casos excepcionales"
+      },
+      {
+        "texto": "Solo cuando peligra vida de la madre",
+        "peso": 75,
+        "descripcion": "Restricción máxima"
+      },
+      {
+        "texto": "Prohibición total del aborto",
+        "peso": 100,
+        "descripcion": "Protección absoluta de la vida"
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "categoria": "social",
+    "pregunta": "¿Cómo debería abordarse la legalización de la marihuana?",
+    "opciones": [
+      {
+        "texto": "Legalización total con regulación similar al alcohol",
+        "peso": 0,
+        "descripcion": "Liberalización completa"
+      },
+      {
+        "texto": "Despenalización del consumo personal, regulación del cultivo",
+        "peso": 40,
+        "descripcion": "Política de reducción de daños"
+      },
+      {
+        "texto": "Solo uso medicinal con receta",
+        "peso": 75,
+        "descripcion": "Uso terapéutico limitado"
+      },
+      {
+        "texto": "Prohibición total y penalización",
+        "peso": 100,
+        "descripcion": "Guerra contra las drogas"
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "categoria": "social",
+    "pregunta": "¿Cuál debería ser el rol de la educación sexual en los colegios?",
+    "opciones": [
+      {
+        "texto": "Educación sexual integral desde básica, incluyendo diversidad",
+        "peso": 0,
+        "descripcion": "Enfoque progresista"
+      },
+      {
+        "texto": "Educación sexual básica en secundaria",
+        "peso": 40,
+        "descripcion": "Enfoque moderado"
+      },
+      {
+        "texto": "Solo aspectos biológicos, valores familiares",
+        "peso": 75,
+        "descripcion": "Enfoque conservador"
+      },
+      {
+        "texto": "Decisión exclusiva de los padres, no del Estado",
+        "peso": 100,
+        "descripcion": "Libertad parental total"
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "categoria": "social",
+    "pregunta": "¿Cómo debería ser la educación superior?",
+    "opciones": [
+      {
+        "texto": "Gratuidad universal en universidades estatales",
+        "peso": 0,
+        "descripcion": "Derecho social garantizado"
+      },
+      {
+        "texto": "Gratuidad focalizada con becas y créditos",
+        "peso": 40,
+        "descripcion": "Sistema mixto"
+      },
+      {
+        "texto": "Financiamiento compartido familia-Estado",
+        "peso": 75,
+        "descripcion": "Responsabilidad individual"
+      },
+      {
+        "texto": "Educación superior privada sin subsidios",
+        "peso": 100,
+        "descripcion": "Mercado educativo libre"
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "categoria": "tecnologia",
+    "pregunta": "¿Cómo debería regularse la inteligencia artificial?",
+    "opciones": [
+      {
+        "texto": "Regulación estricta con leyes específicas y auditorías",
+        "peso": 0,
+        "descripcion": "Control estatal fuerte"
+      },
+      {
+        "texto": "Regulación moderada con estándares éticos",
+        "peso": 40,
+        "descripcion": "Balance innovación-control"
+      },
+      {
+        "texto": "Autorregulación de la industria con supervisión mínima",
+        "peso": 75,
+        "descripcion": "Confianza en el mercado"
+      },
+      {
+        "texto": "Sin regulación, libertad total de innovación",
+        "peso": 100,
+        "descripcion": "Laissez-faire tecnológico"
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "categoria": "tecnologia",
+    "pregunta": "¿Qué opinas sobre la protección de datos personales?",
+    "opciones": [
+      {
+        "texto": "Control estricto tipo GDPR europeo con multas altas",
+        "peso": 0,
+        "descripcion": "Protección máxima de privacidad"
+      },
+      {
+        "texto": "Ley de protección con balance entre privacidad y servicios",
+        "peso": 40,
+        "descripcion": "Regulación equilibrada"
+      },
+      {
+        "texto": "Autorregulación con transparencia en términos de uso",
+        "peso": 75,
+        "descripcion": "Responsabilidad empresarial"
+      },
+      {
+        "texto": "Libertad contractual sin intervención estatal",
+        "peso": 100,
+        "descripcion": "Libre acuerdo"
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "categoria": "tecnologia",
+    "pregunta": "¿Cómo debería Chile desarrollar su infraestructura digital?",
+    "opciones": [
+      {
+        "texto": "Empresa estatal de telecomunicaciones y fibra óptica nacional",
+        "peso": 0,
+        "descripcion": "Infraestructura pública"
+      },
+      {
+        "texto": "Alianzas público-privadas con subsidios a zonas rurales",
+        "peso": 40,
+        "descripcion": "Modelo mixto"
+      },
+      {
+        "texto": "Incentivos a empresas privadas para expandir cobertura",
+        "peso": 75,
+        "descripcion": "Fomento privado"
+      },
+      {
+        "texto": "Mercado libre sin intervención estatal",
+        "peso": 100,
+        "descripcion": "Competencia pura"
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "categoria": "tecnologia",
+    "pregunta": "¿Cuál debería ser la posición de Chile frente a las Big Tech?",
+    "opciones": [
+      {
+        "texto": "Regulación antimonopolio y leyes de competencia estrictas",
+        "peso": 0,
+        "descripcion": "Control de concentración"
+      },
+      {
+        "texto": "Regulación moderada con impuestos digitales",
+        "peso": 40,
+        "descripcion": "Balance regulatorio"
+      },
+      {
+        "texto": "Facilitar entrada al mercado con mínima regulación",
+        "peso": 75,
+        "descripcion": "Atracción de inversión"
+      },
+      {
+        "texto": "Cero regulación, libre operación de plataformas",
+        "peso": 100,
+        "descripcion": "Libertad digital total"
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "categoria": "tecnologia",
+    "pregunta": "¿Cómo debería implementarse el gobierno digital?",
+    "opciones": [
+      {
+        "texto": "Plataforma estatal única con todos los trámites digitalizados",
+        "peso": 0,
+        "descripcion": "Digitalización centralizada"
+      },
+      {
+        "texto": "Sistema híbrido con opciones presenciales y digitales",
+        "peso": 40,
+        "descripcion": "Transformación gradual"
+      },
+      {
+        "texto": "Externalizar servicios digitales a empresas privadas",
+        "peso": 75,
+        "descripcion": "Outsourcing tecnológico"
+      },
+      {
+        "texto": "Minimizar gobierno, máxima automatización y desregulación",
+        "peso": 100,
+        "descripcion": "Estado digital mínimo"
+      }
+    ]
+  }
+]

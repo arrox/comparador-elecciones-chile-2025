@@ -4,12 +4,42 @@ import preguntasData from '../data/preguntas-quiz.json';
 import candidatosData from '../data/candidatos.json';
 
 const CATEGORIAS_INFO = {
-  economia: { nombre: 'Economía', icono: '💰', color: 'blue' },
-  seguridad: { nombre: 'Seguridad', icono: '🛡️', color: 'red' },
-  migracion: { nombre: 'Migración', icono: '🌎', color: 'green' },
-  salud: { nombre: 'Salud', icono: '🏥', color: 'pink' },
-  educacion: { nombre: 'Educación', icono: '📚', color: 'purple' },
-  medio_ambiente: { nombre: 'Medio Ambiente', icono: '🌱', color: 'green' }
+  economia: {
+    nombre: 'Economía',
+    icono: '💰',
+    bgClass: 'bg-blue-100',
+    textClass: 'text-blue-700'
+  },
+  seguridad: {
+    nombre: 'Seguridad',
+    icono: '🛡️',
+    bgClass: 'bg-red-100',
+    textClass: 'text-red-700'
+  },
+  migracion: {
+    nombre: 'Migración',
+    icono: '🌎',
+    bgClass: 'bg-green-100',
+    textClass: 'text-green-700'
+  },
+  salud: {
+    nombre: 'Salud',
+    icono: '🏥',
+    bgClass: 'bg-pink-100',
+    textClass: 'text-pink-700'
+  },
+  educacion: {
+    nombre: 'Educación',
+    icono: '📚',
+    bgClass: 'bg-purple-100',
+    textClass: 'text-purple-700'
+  },
+  medio_ambiente: {
+    nombre: 'Medio Ambiente',
+    icono: '🌱',
+    bgClass: 'bg-emerald-100',
+    textClass: 'text-emerald-700'
+  }
 };
 
 export default function QuizPage() {
@@ -196,7 +226,7 @@ function PantallaQuiz({ pregunta, numeroPregunta, totalPreguntas, onResponder, p
           {/* Categoría */}
           <div className="flex items-center justify-center gap-3 mb-6">
             <span className="text-4xl">{CATEGORIAS_INFO[pregunta.categoria].icono}</span>
-            <span className={`px-4 py-2 bg-${CATEGORIAS_INFO[pregunta.categoria].color}-100 text-${CATEGORIAS_INFO[pregunta.categoria].color}-700 rounded-full font-bold`}>
+            <span className={`px-4 py-2 ${CATEGORIAS_INFO[pregunta.categoria].bgClass} ${CATEGORIAS_INFO[pregunta.categoria].textClass} rounded-full font-bold`}>
               {CATEGORIAS_INFO[pregunta.categoria].nombre}
             </span>
           </div>

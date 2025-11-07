@@ -7,8 +7,8 @@ const CATEGORIAS_INFO = {
   seguridad: { nombre: 'Seguridad', icono: '🛡️', color: 'red' },
   migracion: { nombre: 'Migración', icono: '🌎', color: 'green' },
   salud: { nombre: 'Salud', icono: '🏥', color: 'pink' },
-  social: { nombre: 'Social', icono: '👥', color: 'purple' },
-  tecnologia: { nombre: 'Tecnología', icono: '💻', color: 'indigo' }
+  educacion: { nombre: 'Educación', icono: '📚', color: 'purple' },
+  medio_ambiente: { nombre: 'Medio Ambiente', icono: '🌱', color: 'green' }
 };
 
 export default function CandidatePage() {

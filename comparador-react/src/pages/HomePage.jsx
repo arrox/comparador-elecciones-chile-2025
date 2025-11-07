@@ -18,7 +18,7 @@ export default function HomePage() {
   const calcularPosicion = (candidato) => {
     const categorias = candidato.categorias;
     const ejeX = categorias.economia.tendencia.valor;
-    const categoriasEjeY = ['seguridad', 'migracion', 'social'];
+    const categoriasEjeY = ['seguridad', 'migracion', 'educacion'];
     const valoresY = categoriasEjeY.map(cat => categorias[cat].tendencia.valor);
     const ejeY = valoresY.reduce((a, b) => a + b, 0) / valoresY.length;
 

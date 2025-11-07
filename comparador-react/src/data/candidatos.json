@@ -1554,7 +1554,7 @@
           "etiqueta": "Política Ambiental",
           "izq": "Protección Estricta",
           "der": "Desarrollo con Responsabilidad",
-          "valor": 55
+          "valor": 75
         },
         "propuestas": [
           {
@@ -2013,64 +2013,46 @@
           "etiqueta": "Enfoque Cultural",
           "izq": "Progresismo",
           "der": "Tradición",
-          "valor": 85
+          "valor": 80
         },
         "propuestas": [
           {
-            "titulo": "Desinstalar ideología de género del aparato estatal",
-            "detalle": "Eliminar todos los sesgos, discriminación positiva y cupos reservados basados en género del Estado. Remover políticas de paridad, cuotas de género y programas de acción afirmativa de instituciones públicas.",
+            "titulo": "Liberalización de evaluación ambiental: agilizar permisos para proyectos",
+            "detalle": "Simplificar el Sistema de Evaluación de Impacto Ambiental (SEIA) eliminando trabas burocráticas que retrasan proyectos de inversión. Establecer plazos máximos estrictos para aprobación de estudios ambientales.",
             "verificar": [
-              "Eliminación de ley de cuotas de género en política (40% mínimo)",
-              "Eliminación de paridad en directorios de empresas públicas",
-              "Eliminación de programas de discriminación positiva en contratación pública",
-              "Desmontaje de unidades de género en ministerios y servicios públicos",
-              "Eliminación de presupuestos con enfoque de género"
+              "Cambios propuestos al sistema de evaluación de impacto ambiental",
+              "Tiempos de evaluación actual vs. propuestos"
             ],
-            "problema": "Ideología de género impone discriminación inversa que viola principio de igualdad ante la ley. Cuotas y paridad privilegian características biológicas sobre mérito y competencia. Estado debe ser neutral, no promotor de ingeniería social progresista.",
+            "problema": "El actual sistema ambiental genera retrasos excesivos en proyectos productivos, afectando el desarrollo económico sin necesariamente mejorar la protección ambiental.",
             "desafios": [
-              "Retroceso en representación: Chile tiene solo 24% mujeres en Congreso, eliminar cuotas reduce participación",
-              "Brechas salariales: mujeres ganan 28% menos, sin políticas compensatorias la brecha aumenta",
-              "Violencia de género: sin institucionalidad especializada, femicidios y violencia intrafamiliar quedan sin respuesta",
-              "Compromisos internacionales: CEDAW y Agenda 2030 exigen políticas de equidad de género",
-              "Evidencia: países sin acción afirmativa tienen menor participación femenina en política y economía"
+              "Balance entre agilidad y protección ambiental efectiva",
+              "Resistencia de grupos ambientalistas"
             ]
           },
           {
-            "titulo": "Recuperar lenguaje tradicional: rechazar lenguaje inclusivo",
-            "detalle": "Eliminar 'lenguaje inclusivo' de documentos oficiales y educación estatal. Recuperar significado real de palabras clave: Persona, Familia, Libertad, Verdad. Restaurar uso tradicional del español sin neutralizaciones artificiales.",
+            "titulo": "Mercado de derechos de emisión sin intervención estatal excesiva",
+            "detalle": "Permitir que el mercado regule las emisiones mediante trading de bonos de carbono, sin imposiciones gubernamentales que distorsionen la economía.",
             "verificar": [
-              "Prohibición de lenguaje inclusivo en documentos oficiales del Estado",
-              "Eliminación de '@', 'x', 'e' como neutralizadores de género en educación pública",
-              "Definición oficial de 'familia' como matrimonio tradicional",
-              "Restauración de uso masculino genérico en gramática oficial",
-              "Fiscalización de textos escolares para eliminar lenguaje inclusivo"
+              "Existencia actual de mercado de bonos de carbono en Chile",
+              "Comparación con sistemas internacionales"
             ],
-            "problema": "Lenguaje inclusivo distorsiona idioma español, impone ideología sobre gramática. RAE no reconoce estas formas. Neutralizaciones artificiales ('todes', 'todxs') destruyen claridad comunicativa y sirven a agenda política progresista, no a mejora lingüística.",
+            "problema": "Las regulaciones ambientales estatales suelen ser ineficientes y costosas. Un mercado libre puede lograr mejores resultados en reducción de emisiones.",
             "desafios": [
-              "Libertad de expresión: prohibir formas lingüísticas es censura estatal",
-              "Evolución natural del lenguaje: idiomas cambian, Estado no debe congelarlos",
-              "RAE acepta cambios graduales: incorporó 'presidenta', 'médica', formas antes rechazadas",
-              "Inclusión simbólica: lenguaje inclusivo es herramienta de visibilización de minorías",
-              "Experiencia: Francia, España mantienen neutralizadores sin destruir idioma"
+              "Diseño inicial del mercado requiere marco regulatorio",
+              "Monitoreo y verificación de emisiones"
             ]
           },
           {
-            "titulo": "Batalla cultural: defender familia tradicional y volver a meritocracia",
-            "detalle": "Defender matrimonio religioso y autoridad de padres. Rechazar intromisión del Estado en crianza. Volver a sistema basado en mérito, habilidades y esfuerzo, no en género, raza u origen. Auditoría de programas culturales para eliminar proselitismo político y nueva ley de mecenazgo ciudadano.",
+            "titulo": "Libertad energética: sin mandatos de renovables",
+            "detalle": "Eliminar objetivos obligatorios de energías renovables y permitir que el mercado decida la matriz energética según costos y eficiencia.",
             "verificar": [
-              "Protección legal del matrimonio religioso y autoridad parental",
-              "Eliminación de intervención estatal en métodos de crianza familiar",
-              "Restauración de criterios meritocráticos en educación y empleo público",
-              "Auditoría completa de fondos de cultura para detectar sesgo político",
-              "Proyecto de ley de mecenazgo ciudadano para financiamiento cultural privado"
+              "Metas renovables actuales en Chile",
+              "Costos comparativos entre fuentes energéticas"
             ],
-            "problema": "Estado progresista impone visión única de familia, invalida autoridad parental, promueve relativismo moral. Meritocracia reemplazada por cuotas identitarias. Fondos culturales financian arte político de izquierda. Familias tradicionales tratadas como retrógradas, perdiendo derecho a criar según sus valores.",
+            "problema": "Los mandatos de energías renovables encarecen la energía y distorsionan el mercado, perjudicando a consumidores y empresas.",
             "desafios": [
-              "Diversidad familiar: 30% hogares monoparentales, 5% parejas del mismo sexo no calzan en 'familia tradicional'",
-              "Maltrato infantil: sin intervención estatal, 50.000 casos anuales quedan sin protección",
-              "Meritocracia es mito: 70% universitarios vienen del 20% más rico, no por mérito sino por herencia",
-              "Arte y política: cultura siempre fue política, censurar 'proselitismo' es censurar disidencia",
-              "Mecenazgo privado: concentra cultura en élites ricas, excluye expresiones populares"
+              "Compromisos internacionales de Chile (Acuerdo de París)",
+              "Costos de transición y estabilidad de red eléctrica"
             ]
           }
         ]
@@ -2385,64 +2367,48 @@
           "etiqueta": "Política Social",
           "izq": "Universalismo",
           "der": "Focalización",
-          "valor": 30
+          "valor": 55
         },
         "propuestas": [
           {
-            "titulo": "Plebiscito vinculante para todas las decisiones importantes",
-            "detalle": "Ciudadanía vota directamente reformas tributarias, pensiones, constitución, tratados. Democracia directa. Políticos solo ejecutan. Suiza tiene 12 plebiscitos al año.",
+            "titulo": "Plataforma educativa digital con inteligencia artificial",
+            "detalle": "Crear una plataforma nacional de educación online con tutores de IA que personalicen el aprendizaje para cada estudiante, accesible desde cualquier dispositivo.",
             "verificar": [
-              "Temas sometidos a plebiscito",
-              "Frecuencia de votaciones",
-              "Costo de implementación",
-              "Vinculación de resultados",
-              "Umbral de aprobación"
+              "Tecnologías de IA educativa disponibles",
+              "Conectividad actual en escuelas de Chile"
             ],
-            "problema": "Políticos traicionan mandatos. Gente votó una cosa, hacen otra. Democracia representativa está quebrada. Demos poder directo a la ciudadanía.",
+            "problema": "El sistema educacional tradicional no se adapta al ritmo de cada estudiante y requiere presencia física que limita el acceso.",
             "desafios": [
-              "Populismo plebiscitario: decisiones técnicas requieren expertise",
-              "Fatiga electoral: Suiza tiene 50% abstención en plebiscitos",
-              "Mayoría tiraniza minoría: 51% puede quitar derechos al 49%",
-              "Manipulación mediática: quien controla TV controla resultado",
-              "Costo: USD 20-30 millones por plebiscito, 12 anuales = USD 300M"
+              "Inversión en conectividad rural",
+              "Formación de docentes en nuevas tecnologías",
+              "Brecha digital entre familias"
             ]
           },
           {
-            "titulo": "Revocatoria de mandato: recall elections cada 2 años",
-            "detalle": "Con 10% de firmas del padrón, convocar plebiscito para destituir Presidente, parlamentarios, alcaldes. Nuevas elecciones en 60 días. Accountability ciudadano directo.",
+            "titulo": "Educación técnica digital: certificaciones online reconocidas",
+            "detalle": "Validar oficialmente certificaciones de plataformas digitales (Coursera, Udemy, etc.) para educación técnica, permitiendo formación rápida y económica.",
             "verificar": [
-              "Porcentaje de firmas requerido",
-              "Cargos sujetos a revocatoria",
-              "Proceso de recolección",
-              "Frecuencia permitida",
-              "Costo estimado"
+              "Marco regulatorio actual de certificaciones técnicas",
+              "Calidad y reconocimiento internacional de plataformas digitales"
             ],
-            "problema": "Autoridades no rinden cuentas. Esperamos 4 años para cambiar malos gobiernos. Revocatoria da poder al pueblo: mal gobierno, fuera inmediatamente.",
+            "problema": "Las certificaciones técnicas tradicionales son costosas y lentas, mientras existen alternativas digitales de calidad no reconocidas oficialmente.",
             "desafios": [
-              "Inestabilidad política: California tuvo 55 intentos en 10 años",
-              "Chantaje político: oposición pararía gobierno con amenaza constante",
-              "Costo: USD 50M por elección anticipada",
-              "Gobernabilidad: Presidente gobernaría permanentemente para elecciones",
-              "Venezuela tiene revocatoria: Maduro la manipuló para perpetuarse"
+              "Establecer estándares de calidad para plataformas",
+              "Resistencia de instituciones tradicionales"
             ]
           },
           {
-            "titulo": "Sueldo mínimo parlamentario: $500.000 como el chileno promedio",
-            "detalle": "Parlamentarios ganan sueldo mínimo ($500.000). Sin dietas, viáticos ni bonos. Senado y Cámara trabajan 5 días a la semana sin receso. Fin de la clase política privilegiada.",
+            "titulo": "Evaluación continua digital: terminar con PSU/PAES",
+            "detalle": "Reemplazar pruebas estandarizadas por un sistema de evaluación continua basado en desempeño digital verificable durante toda la educación media.",
             "verificar": [
-              "Monto del sueldo",
-              "Eliminación de beneficios",
-              "Jornada laboral",
-              "Comparación internacional",
-              "Impacto en calidad legislativa"
+              "Sistemas de evaluación digital en otros países",
+              "Efectividad actual de PSU/PAES para predecir éxito universitario"
             ],
-            "problema": "Parlamentarios ganan $12M, más que médicos, ingenieros. Están desconectados de la realidad. Sueldo bajo los obligaría a vivir como chilenos comunes.",
+            "problema": "Las pruebas estandarizadas generan estrés, favorecen a quien puede pagar preparación y no reflejan el desempeño real del estudiante.",
             "desafios": [
-              "Solo ricos podrían ser parlamentarios: clases medias y bajas excluidas",
-              "Corrupción aumentaría: buscarían financiamiento ilegal",
-              "OCDE: países con parlamentarios mal pagados tienen más corrupción",
-              "Calidad legislativa: sin recursos ni equipo, leyes serían peor redactadas",
-              "Experiencia México: legisladores mal pagados, niveles de corrupción altísimos"
+              "Prevención de fraude en evaluaciones online",
+              "Adaptación de universidades a nuevo sistema",
+              "Equidad en acceso a tecnología"
             ]
           }
         ]
